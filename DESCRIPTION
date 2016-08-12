@@ -1,0 +1,31 @@
+Package: CytoCompare
+Type: Package
+Title: Computational comparisons of cytometry profiles
+Date: 2016-08-12
+Version: 1.0.0
+Author: Ludovic PLATON, Guillaume GAUTREAU and Nicolas TCHITCHEK
+Maintainer: Nicolas TCHITCHEK <nicolas.tchitchek@gmail.com>, Guillaume GAUTREAU <guillaume.gautreau@free.fr> and Ludovic PLATON <platon.ludovic@gmail.com>
+Description: Characterization of cytometry profiles is an important aspect in high-dimensional cytometry analysis. Such characterization is mainly done by performing comparisons between different types of cytometry profiles to identify similar or included profiles. CytoCompare allows the comparison of various types of cytometry profiles such as: (i) cells, modeled by intensities of expression markers, via the CELL object; (ii) cell clusters (cell populations), modeled by densities of expression markers, via the CLUSTER object; and (iii) gates, modeled by ranges of expression markers, via the GATE object. For each comparison of two cytometry profiles, CytoCompare computes a p-value asserting the significance of the similarity or the inclusion. An aggregated distance measure is also computed for comparisons between cytometry profiles of identical types. Cytometry profiles can be imported from or exported to FCS or tab separated files. Automatic gating result files from SPADE or Citrus algorithms can be imported into CytoCompare as well as FCS files obtained from viSNE algorithm. Cytometry gate profiles can be imported from or exported to Gating-ML XML files. Importantly, users can also create the cytometry profiles based on their own file formats and define their own statistical methods for the comparisons of the different types of profiles. Moreover, CytoCompare has many visualization representations that can be used to make comparison results and intermediary results easily understandable.
+License: GPL-3 | file LICENSE
+Depends:
+    R (>= 3.1),
+Imports:
+    BiocInstaller,
+	diptest,
+    flowCore,
+    flowUtils,
+    ggplot2,
+	ggrepel,
+    grid,
+    igraph,
+    MASS,
+    methods,
+	stats,
+    RJSONIO,
+	tools,
+	utils,
+    XML
+biocViews: FlowCytometry, Classification, Visualization
+VignetteBuilder: knitr
+Suggests: knitr,rmarkdown
+RoxygenNote: 5.0.1
