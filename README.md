@@ -75,16 +75,16 @@ Another recently introduced technique, called hyper-spectral cytometry [[2](http
 Such significant technological improvements make flow and mass cytometry suitable for massive data-mining and bioinformatics developments, in order to better explore and analyze complex cell interaction systems.
 
 Cytometry data can be manually analyzed using a gating strategy (hierarchical gating usually followed by Boolean gating) or using automatic gating/clustering algorithms.
-In both approaches, the aim is to identify cell populations having similar profiles, based on the expressions of selected markers.
+In both approaches, the aim is to identify cell populations having similar phenotypes, based on the expressions of selected markers.
 Hierarchical gating is done using biplot representations, where each axis represents the intensity of a marker of interest and where dots represent the cells.
-Through iterative steps, operators select cell subsets and explore their marker expression profiles.
+Through iterative steps, operators select cell subsets and explore their phenotypes.
 Boolean gating is done by quantifying cells present within all possible combinations of gates for a population of interest.
 Even if Boolean gating can be done in an automatic way, gates still have to be delineated for each cell marker.
 FlowJo [[3](http://www.flowjo.com)] and CytoBank [[4](https://www.cytobank.org)] are among the most common software for manual gating.
 Both hierarchical and Boolean gating can be very fastidious and biased. 
 The difficulty mainly comes from the high dimensionality of data, that is to say from the high number of markers and cell populations.
 This task becomes even more complicated as the number of markers increases or as the studies become more complex. 
-On the other hand, automatic gating methods (such as [viSNE/ACCENSE](http://www.cellaccense.com/) [[6](http://www.ncbi.nlm.nih.gov/pubmed/24344260)], [SPADE](http://cytospade.org/) [[5](http://www.ncbi.nlm.nih.gov/pubmed/21964415)] or [Citrus](https://github.com/nolanlab/citrus/wiki) [[6](http://www.ncbi.nlm.nih.gov/pubmed/24979804)]) use various algorithms to computationally identify cell populations having similar profiles and provides then less biased results. 
+On the other hand, automatic gating methods (such as [viSNE](https://www.c2b2.columbia.edu/danapeerlab/html/cyt.html) [[5](http://www.ncbi.nlm.nih.gov/pubmed/23685480)] /[ACCENSE](http://www.cellaccense.com/) [[6](http://www.ncbi.nlm.nih.gov/pubmed/24344260)], [SPADE](http://cytospade.org/) [[7](http://www.ncbi.nlm.nih.gov/pubmed/21964415)] or [Citrus](https://github.com/nolanlab/citrus/wiki) [[8](http://www.ncbi.nlm.nih.gov/pubmed/24979804)]) use various algorithms to computationally identify cell populations having similar phenotypes and provides then less biased results. 
 
 Once identified cell populations, also named cell clusters, need to be deeper characterized or associated with known phenotypes for further investigations. 
 
@@ -97,20 +97,19 @@ Additionally, no visualization methods have been proposed to represent such phen
 
 Cytometry experts can face at least five different situations that can necessitate comparing the cell clusters based on their phenotypes:
 
-* The first situation occurs when selecting the cell clustering algorithm to perform this analysis, which implies to compare clustering results from different algorithms. 
+* The first situation occurs when selecting the cell clustering algorithm to perform the analysis, which implies to compare clustering results from different algorithms. 
 * The second situation happens when selecting the settings for one given automatic gating algorithm, which implies to compare clustering results obtained using different parameters. 
 * The third situation takes place when ascertaining the reproducibility of the clustering results by repeating the analysis using the same settings. 
 * The fourth situation arises when users aim to organize the identified cell clusters based on their phenotypes. 
-* The fifth situation occurs when comparing different biological studies.
+* The fifth situation occurs when comparing the phenotypes of cell populations from different biological studies.
 
 CytoCompare is an R package that performs comparisons between the phenotypes of cell clusters with the purpose of identifying similar ones.
 For each comparison of two cell clusters, CytoCompare provides a similarity measure as well as a p-value asserting the statistical significance of the similarity.
 CytoCompare can generate parallel coordinates, parallel heatmaps, multidimensional scaling or circular graph representations to visualize easily cell cluster phenotypes and the comparison results.
 CytoCompare can import clustering results from various algorithms including viSNE/ACCENSE, SPADE, and Citrus, the most current widely used algorithms.
 
-We designed CytoCompare in a way that it can be easily used by non bioinformatician experts, but can also be easily customizable by users with more expertise in bioinformatics. CytoCompare offers many visualization representations to make comparison results and intermediary objects easily understandable (such as parallel coordinates, Multidimensional scaling or circular graphs representations).
-Through the multiple profiles manipulation methods, CytoCompare is also a powerful analysis pipeline for high-dimensional cytometry data.
-Finally, users can also create the cytometry profiles based on their own file formats and define their own statistical methods for the comparisons of the different types of profiles. 
+We designed CytoCompare in a way that it can be easily used by non-bioinformatician experts, but can also be easily customizable by users with more expertise in bioinformatics.
+Through the multiple cell cluster manipulation methods, CytoCompare is also a powerful analysis pipeline for high-dimensional cytometry data.
 
 
 # <a name="package_installation"></a> 2. Package installation
@@ -147,12 +146,12 @@ library("CytoCompare")
 
 
 
-An example dataset, obtained from public mass cytometry data [[5](http://www.ncbi.nlm.nih.gov/pubmed/21964415)], is available in CytoCompare.
+An example dataset, obtained from public mass cytometry data [[9](http://www.ncbi.nlm.nih.gov/pubmed/21964415)], is available in CytoCompare.
 This example dataset consists of three healthy human bone marrow samples, unstimulated or stimulated by BCR-inductor or IL-7, and measured using a mass cytometry panel of more than 30 cell markers. 
 This panel has been designed to identify a large spectrum of immune cell types. 
-A SPADE analysis has been performed to identify cell clusters profiles. 
-Then, these cell clusters have been manually labeled based on their marker expressions [[5](http://www.ncbi.nlm.nih.gov/pubmed/21964415)]. 
-SPADE cell clusters corresponding to six majors cell types (B, CD33+ monocytes, naive or memory CD4+ T cells, and naive or memory CD8+ T cells) have been extracted.
+A SPADE analysis has been performed to identify cell clusters. 
+Then, these cell clusters have been manually labeled based on their marker expressions [[9](http://www.ncbi.nlm.nih.gov/pubmed/21964415)]. 
+SPADE cell clusters corresponding to six majors cell types (B, CD33+ monocytes, naive or memory CD4+ T cells, and naive or memory CD8+ T cells) have been extracted to create this example dataset.
 
 The raw data and the R object (`CytoCompareExample.rdata`) corresponding to this example dataset are available on a public ftp server: [ftp://ftp.cytocompare.org/public/](ftp://cytocompare:cytocompare@ftp.cytocompare.org/public/) (username: cytocompare, password: cytocompare).
 
@@ -167,30 +166,29 @@ load.examples()
 
 Once downloaded, the following objects will be available:
 
-* `bm_example.clusters`, a `CLUSTER` object containing the cell clusters for all the different cell populations identified by SPADE
-* `bm_example.clusters.b`, a `CLUSTER` object containing the cell clusters of the B cell populations identified by SPADE
-* `bm_example.clusters.mono`, a `CLUSTER` object containing the cell clusters of the monocyte cell populations  identified by SPADE
-* `bm_example.clusters.tCD4naive`, a `CLUSTER` object containing the cell clusters of the naive CD4+ T cell populations identified by SPADE
-* `bm_example.clusters.tCD8naive`, a `CLUSTER` object containing the cell clusters of the naive CD8+ T cell populations identified by SPADE
-* `bm_example.clusters.tCD4mem`, a `CLUSTER` object containing the cell clusters of the memory CD4+ T cell populations identified by SPADE
-* `bm_example.clusters.tCD8mem`, a `CLUSTER` object containing the cell clusters of the memory CD8+ T cell populations identified by SPADE
-* `bm_example.mweights`, a `MWEIGHTS` object containing markers that can be used for the comparison computations
+* `bm_example.clusters`, a `CLUSTER` object containing the phenotypes of SPADE cell clusters for all the different cell populations
+* `bm_example.clusters.b`, a `CLUSTER` object containing the phenotypes of SPADE cell clusters associated to the B cell populations
+* `bm_example.clusters.mono`, a `CLUSTER` object containing the phenotypes of SPADE cell clusters associated to monocyte cell populations
+* `bm_example.clusters.tCD4naive`, a `CLUSTER` object containing the phenotypes SPADE of cell clusters associated to the naive CD4+ T cell populations
+* `bm_example.clusters.tCD8naive`, a `CLUSTER` object containing the phenotypes of SPADE cell clusters associated to the naive CD8+ T cell populations identified by SPADE
+* `bm_example.clusters.tCD4mem`, a `CLUSTER` object containing the phenotypes of SPADE cell clusters associated to memory CD4+ T cell populations
+* `bm_example.clusters.tCD8mem`, a `CLUSTER` object containing the phenotypes of SPADE cell clusters associated to memory CD8+ T cell populations
 
 # <a name="object_importation"></a> 3. Importation of cytometry cell clusters 
 
 ## <a name="visne_importation"></a> 3.1. Importation of cell clusters from viSNE/ACCENSE results
-The `import.VISNE()` function imports cell profiles from viSNE FCS files into a `CELL` object (see section 10.2. for more details). 
-viSNE is a visualization algorithm for high-dimensional cytometry data [[7](http://www.ncbi.nlm.nih.gov/pubmed/23685480)].
-ViSNE aims to represent cell profiles in a 2-dimensional space using a dimensionality reduction process.
+The `import.VISNE_ACCENSE()` function imports cell clusters from viSNE/ACCENSE results into a `CLUSTER` object. 
+The viSNE algorithm is a visualization algorithm for high-dimensional cytometry data [[7](http://www.ncbi.nlm.nih.gov/pubmed/23685480)] that aims to represent cell in a 2-dimensional space using a dimensionality reduction process.
 For each cell profile a 2-dimensional coordinate is calculated.
-The 2 dimensions are named tSNE1 and tSNE2 and the results are presented via FCS files having two extra markers corresponding to these dimensions.  
+The 2 dimensions are named tSNE1 and tSNE2 and the results are presented via FCS files having two extra markers corresponding to these dimensions. 
+The ACCENSE algorithm combine the viSNE results with a k-means clustering algorithm,  for both visualization and automated cell classification into subpopulations. 
 
-An import of a viSNE FCS file can be done using the following command:
+An import of a viSNE/ACCENSE results can be done using the following command:
 
 
 ```r
-# imports a viSNE FCS file containing several cell profiles 
-#imported.visne <- import.VISNE('./CELL.viSNE/Marrow1_01_Basal1_Singlets_viSNE.fcs')
+# imports viSNE/ACCENSE results containing several cell clusters 
+#imported.visne <- import.VISNE_ACCENSE('./CELL.viSNE/Marrow1_01_Basal1_Singlets_viSNE.fcs')
 ```
 
 Some parameters can be specified to apply numeric transformations on the marker expression values, or to exclude some markers in the import or transformation procedures:
@@ -199,8 +197,6 @@ Some parameters can be specified to apply numeric transformations on the marker 
 * the `trans` parameter is a character specifying the name of a transformation function to apply on the marker expression intensities. Possible functions are "arcsinh" for arc sin hyperbolic transformation (default), "log" for logarithmic transformation, or "none" for no transformation 
 * the `trans.para` parameter is a named list containing parameters for the transformation
 * the `trans.exclude` parameter is a character vector containing the marker names for which no transformation must be applied on
-* the `tSNE1` parameter is a character indicating the marker name of the first viSNE dimension (tSNE1)
-* the `tSNE2` parameter is a character indicating the marker name of the second viSNE dimension (tSNE2)
 
 
 The available transformation functions are (`trans` parameter):
@@ -215,7 +211,7 @@ The available transformation parameters are (`trans.para` parameter):
 * for the `"log"` transformation, the base and the shift can be specified using the `log.base` and `log.shift` parameters. The 'log.shift' parameter allows the value "auto" which automatically identify the log shift avoiding to apply log transformations on negative values.
 
 
-A summary of the `CELL` object, imported by the `import.VISNE()` function, can be done using the following command:
+A summary of the `CLUSTER` object, imported by the `import.VISNE_ACCENSE()` function, can be done using the following command:
 
 ```r
 #print(imported.visne)
@@ -223,13 +219,11 @@ A summary of the `CELL` object, imported by the `import.VISNE()` function, can b
 
 
 ## <a name="spade_importation"></a> 3.2. Importation of cell clusters from SPADE results
-The `import.SPADE()` function imports cell cluster profiles identified by the SPADE algorithm into a `CLUSTER` object (see section 10.3. for more details). 
-The Spanning Tree Progression of Density Normalized Events ([SPADE](http://cytospade.org/) [5]) algorithm is a visualization and analysis algorithm for high-dimensional cytometry data, available in R or in [Cytobank](https://www.cytobank.org/) [4].
+The `import.SPADE()` function imports cell clusters identified by the SPADE algorithm into a `CLUSTER` object. 
+The Spanning Tree Progression of Density Normalized Events ([SPADE](http://cytospade.org/) [5]) algorithm is a visualization and analysis algorithm for high-dimensional cytometry data, available in [R](https://github.com/nolanlab/spade/) or in [Cytobank](https://www.cytobank.org/) [4].
 SPADE was designed to analyze mass cytometry data but can also handle flow cytometry data.
 
-SPADE identifies clusters of cells having similar expression profiles for selected markers using an agglomerative hierarchical clustering-based algorithm combined with a density-based down-sampling procedure. 
-Given a set of FCS files (usually one file per sample), SPADE identifies cell clusters based on the whole dataset and provides then for each sample the amount of cells present within each cluster.
-The number of desired cell clusters to obtain needs to be specified by the user as well as some down-sampling parameters. 
+SPADE identifies clusters of cells having similar expression for selected markers using an agglomerative hierarchical clustering-based algorithm combined with a density-based down-sampling procedure. 
 SPADE represents its clustering results using a tree representation where each node represents a cell cluster and where similar cell clusters are linked using a minimal spanning tree approach.
 In SPADE tree representations, the sizes of the nodes are proportional to the amount of cells present within each cluster. 
 In order to characterize cell populations and to associate them with known phenotypes, nodes can be gradient-colored based on theirs mean expression intensities for a specific marker.
@@ -238,8 +232,8 @@ An import of SPADE clustering results can be done using the following command:
 
 
 ```r
-# imports a SPADE folder containing several cell cluster profiles 
-#imported.spade <- import.SPADE('./CLUSTER.SPADE/')
+# imports a SPADE folder containing several cell clusters 
+imported.spade <- import.SPADE('./CLUSTER.SPADE/')
 ```
 
 Some parameters can be specified to apply numeric transformations on the marker expression values, to exclude some markers in the import or transformation procedures, or to specify how to extract a SPADE result archive:
@@ -273,13 +267,14 @@ A summary of the `CLUSTER` object, imported by the `import.SPADE()` function, ca
 
 
 ## <a name="citrus_importation"></a> 3.3. Importation of cell clusters from CITRUS results
-The `import.CITRUS()` function imports cell cluster profiles identified by the Citrus algorithm into a `CLUSTER` object (see section 10.3. for more details). [Citrus](https://github.com/nolanlab/citrus/wiki) [[6](http://www.ncbi.nlm.nih.gov/pubmed/24979804)] is an algorithm developed similarly to SPADE, which can furthermore identify cell clusters associated with different biological condition phenotypes.
+The `import.CITRUS()` function imports cell cluster identified by the Citrus algorithm into a `CLUSTER` object. 
+[Citrus](https://github.com/nolanlab/citrus/wiki) [[6](http://www.ncbi.nlm.nih.gov/pubmed/24979804)] is an algorithm developed similarly to SPADE, which can furthermore identify cell clusters associated with different biological condition phenotypes.
 
 An import of Citrus clustering results can be done using the following command:
 
 
 ```r
-# imports a Cirtus result file containing several cell cluster profiles 
+# imports a Cirtus result file containing several cell clusters 
 imported.citrus <- import.CITRUS('./CLUSTER.Citrus/citrusClustering.rData')
 ```
 
@@ -297,12 +292,12 @@ print(imported.citrus)
 ```
 
 
-## <a name="cluster_importation"></a> 3.4. Importation of cell cluster profiles from text files
-The `import.CLUSTER()` function imports one or several cell cluster profiles from a tab separated file into a `CLUSTER` object (see section 10.3. for more details).
+## <a name="cluster_importation"></a> 3.4. Importation of cell clusters from text files
+The `import.CLUSTER()` function imports one or several cell clusters from a tab separated file into a `CLUSTER` object.
 In this case, the marker expressions of each cluster are assumed to be normally distributed.
-Therefore, the tab separated file must contain for each cell cluster profile the means and the standard deviations of the expression markers and must be formatted as the following:
+Therefore, the tab separated file must contain for each cell cluster the means and the standard deviations of the expression markers and must be formatted as the following:
 
-* each row must represent a cell cluster profile
+* each row must represent a cell cluster
 * each column must represent a marker
 * each cell in the table must contain the marker expression means and the standard deviations for a given cell cluster separated by a semicolon
 
@@ -323,7 +318,7 @@ An import of a such file can be done using the following command:
 
 
 ```r
-# imports a tab separated file containing several cell cluster profiles 
+# imports a tab separated file containing several cell clusters 
 imported.clusters <- import.CLUSTER('./CLUSTER.TXT/clusters.txt')
 ```
 
@@ -360,25 +355,25 @@ print(imported.clusters)
 ##  cluster_5: no associated number of cells
 ```
 
-It is to note that `CLUSTER` objects constructed via the `import.CLUSTER()` function do not contain the densities of expression markers (please refer to the documentation of the `compare()` function).
+It is to note that `CLUSTER` objects constructed via the `import.CLUSTER()` function do not contain the densities of expression markers.
 
 
-# <a name="object_manipulation"></a> 4. Manipulation of cytometry profiles
+# <a name="object_manipulation"></a> 4. Manipulation of CLUSTER objects
 
-## <a name="object_extraction"></a> 4.1. Extraction of cytometry profiles
-The extract function `[i,j]` can be used to extract subsets of a `CLUSTER` object. The parameter `i` represents a vector of profiles to extract and the parameter `j` represents a vector of markers to extract. Both `i` and `j` can be numeric, logical or character vectors.
+## <a name="object_extraction"></a> 4.1. Extraction of CLUSTER objects
+The extract function `[i,j]` can be used to extract subsets of a `CLUSTER` object. The parameter `i` represents a vector of cell cluster to extract and the parameter `j` represents a vector of markers to extract. Both `i` and `j` can be numeric, logical or character vectors.
 
 For example, subsets of a `CLUSTER` object can be extracted using the following commands:
 
 ```r
-# extracts some specific cell cluster profiles of a given CLUSTER object
+# extracts some specific cell clusters from a given CLUSTER object
 monoclusters.subset1 <- bm_example.clusters.mono[c(1,3,5,7,11)]
-# extracts the first 10 cell profiles and extracts some markers of a given CLUSTER object 
+# extracts the first 10 cell clusters and extracts some markers from a given CLUSTER object 
 monoclusters.subset2 <- bm_example.clusters.mono[1:10,5:10]
 ```
 
 
-## <a name="object_combination"></a> 4.2. Combination of cytometry cell clusters
+## <a name="object_combination"></a> 4.2. Combination of CLUSTER objects
 The combine function `c()` can be used to combine two or several `CLUSTER` objects.
 
 This function is especially useful when combining cell clusters obtained from different cell clustering results into one single `CLUSTER` object. 
@@ -402,14 +397,16 @@ tcells.combine2 <- do.call("c",tcells.list)
 
 # <a name="object_representation"></a> 5. Representations of cytometry cell clusters
 
-## <a name="cluster_visualization"></a> 5.1. Visualization of a cell clusters
-The `plot()` function can be used to plot the cell cluster phenotype of a `CLUSTER` object, via parallel coordinates where the x-axis represents the different markers, where the y-axis represents the marker expressions, and where error bars indicate the marker expression standard deviations.
+## <a name="cluster_visualization"></a> 5.1. Visualization of the phenotype of a cell cluster
+The `plot()` function can be used to plot the cell cluster phenotype of a `CLUSTER` object, via parallel coordinates.
+In such parallel coordinate representation the x-axis represents the different markers and the y-axis represents the marker expressions.
+Error bars indicate the marker expression standard deviations.
 Representations are generated using the `ggplot2` library [10] and can be modified by users.
  
 A `CLUSTER` object, which contains one or several cell clusters, can be plotted using the following command:
 
 ```r
-# plots the phenotypes of second cell cluster in a CLUSTER object
+# plots the phenotype of the second cell cluster from a CLUSTER object
 plot(bm_example.clusters[2])
 ```
 
@@ -424,14 +421,14 @@ plot(bm_example.clusters[1:3])
 
 <img src="README.figures/single_cluster_multiple_plot-1.png" style="display: block; margin: auto;" />
 
-## <a name="pairwise_visualization"></a> 5.2. Pairwise visualization of ccell clusters
-Two cytometry cell clusters can be visualized in one single representation using the `plot()` function.
-Such representations are especially useful to better visualize the marker similarities between two cell clusters. All combinations of representations, between two clusters, are possible and can be performed using the following commands: 
+## <a name="pairwise_visualization"></a> 5.2. Pairwise visualization of cell clusters
+Two cytometry cell clusters can be visualized in one single representation using parallel coordinates via the `plot()` function.
+Such representations are especially useful to better visualize the marker expression similarities between two cell clusters. 
 
 
 
 ```r
-# plots two cell clusters in one single representation
+# plots two cell clusters in one single parallel coordinate representation
 plot(bm_example.clusters[1],bm_example.clusters[2])
 ```
 
@@ -439,15 +436,25 @@ plot(bm_example.clusters[1],bm_example.clusters[2])
 
 
 
-# <a name="object_comparison"></a> 6. Comparisons of cytometry profiles 
+# <a name="object_comparison"></a> 6. Comparisons of cytometry cell clusters 
 
-## <a name="compare_function"></a> 6.1. Overview of the comparison approach
-Cytometry cell cluster contained in `CLUSTER` objects can be compared using the `compare()` function. 
+The phenotypes of cell cluster contained in `CLUSTER` objects can be compared using the `compare()` function. 
 Comparison results are stored in a `RES` object (please refer to section 7 for more details). 
 
-For each comparison of two cell clusters, a p-value asserting the statistical significance is provided. 
+For each phenotypic comparison of two cell clusters, a similairty measure is provided as well as a p-value asserting the statistical significance of the similiarity. 
 
 Comparisons can be performed based on the whole set of common markers between the two profiles, or based on a subset of markers specified by the user. Moreover, markers can be weighted in the comparison procedure, via a `MWEIGHTS` object.
+
+When comparing two cell clusters, CytoCompare first computes a similarity measure for each pair of cell markers (step 1). 
+In our statistical approach, the Kolmogorov-Smirnov distance is used to qualify the similarity between marker distribution densities [22]. 
+Here, the distance corresponds to the maximal difference between the two cumulative distribution functions. 
+
+![](./README.figures/CytoCompare-manuscript-Figure1.png)
+
+In our approach, marker similarity distances below a threshold, defined by the user, model a success in a Bernoulli experiment (steps 2).
+The p-value, computed by an exact right-tailed binomial test, asserts if the proportion of marker successes is statistically higher than a proportion of expected marker successes defined by the user.
+Using this p-value, it is then possible to assert whether the two cell clusters have a phenotype statistically similar or not (step 3).
+The marker similarity measures are also aggregated using a weighted mean to obtain one single similarity measure for each comparison of two cell clusters. 
 
 If only one object is provided to the `compare()` function then the comparisons will be performed between all clusters of this object. 
 If two objects are provided to the `compare()` function then the comparisons will be performed between all possible pairs of cluster between these two objects.
@@ -456,20 +463,13 @@ Importantly, users can define their own function to perform the statistical comp
 
 Different parameters can be defined, via the `method.params` named list, to specify the behavior of such kind of comparisons:
 
-* the `D.th` parameter indicates the similarity threshold to use for comparison between profiles of same types (default values are precised in sections below);
-* the `P` parameter indicates the proportion of marker successes to statistically overtake to consider the similarity or inclusion as significant.
+* the `D.th` parameter indicates the similarity threshold to use for comparison between two cell clusters (default values is set to 0.30);
+* the `P` parameter indicates the proportion of marker successes to statistically consider the similarity significant (default values is set to 0.75).
 
-
-## <a name="cluster_cluster_compare"></a> 6.2. Comparisons between two cell cluster profiles
-In the case of comparisons between two cell cluster profiles, the marker distances are calculated based on the Kolmogorov-Smirnov distance (by default, the similarity threshold parameter `D.th` is here equals to 0.3).
-The Kolmogorov-Smirnov distance corresponds to the maximum absolute distance between two cumulative distribution functions.
-
-Additionally to `D.th` and `P`, different advanced parameters can be defined, via the `method.params` named list. Please refer to the CytoCompare R documentation to obtain more details.
-
-For example, comparisons between different cell cluster profiles can be done using the following commands:
+For example, comparisons between different cell clusters can be done using the following commands:
 
 ```r
-# compares a set of cell cluster profiles from the same CLUSTER object, using a specific MWEIGHTS object
+# compares a set of cell clusters from the same CLUSTER object, using a specific MWEIGHTS object
 res.clusters_b.small <- compare(bm_example.clusters.b[c("205","208","147")],mweights=bm_example.mweights)
 print(res.clusters_b.small)
 ```
@@ -526,14 +526,14 @@ print(res.clusters_b.small)
 
 
 ```r
-# compares all cell cluster profiles from the same CLUSTER object, using a specific MWEIGHTS object
+# compares all cell clusters from the same CLUSTER object, using a specific MWEIGHTS object
 res.clusters_b <- compare(bm_example.clusters.b,mweights=bm_example.mweights)
 ```
 
 
 
 ```r
-# compares cell cluster profiles from different CLUSTER objects, using a specific MWEIGHTS object
+# compares cell clusters from different CLUSTER objects, using a specific MWEIGHTS object
 bm_example.clusters.b@name         <- "b"
 bm_example.clusters.mono@name      <- "mono"
 bm_example.clusters.tCD4naive@name <- "tCD4naive"
@@ -558,15 +558,16 @@ for(i in 1:length(clusters)){
 # <a name="res_object"></a> 7. Manipulation of comparison results
 
 ## <a name="res_structure"></a> 7.1. Structure of comparison results
-The `RES` object is a S4 object containing one or several comparison results. This object mainly stores for each comparison result: the aggregated distance and the marker distances (in the case of similarity comparison), the associated similarity or inclusion p-value and the marker similarity or inclusion successes.
+The `RES` object is a S4 object containing one or several comparison results. 
+This object mainly stores for each comparison result: the aggregated distance and the marker distances, the associated similarity p-value and the marker similarity successes.
 
 Different slots are available for a given `RES` object:
 
-* the slot `comparisons` is a data.frame containing for each comparison: the profile names, the type of the comparison (similarity or inclusion), the similarity distance (or NA in case of inclusion), the distance threshold used (or NA in case of inclusion) and the associated p-value
+* the slot `comparisons` is a data.frame containing for each comparison: the profile names,the similarity distance, the distance threshold used and the associated p-value
 * the slot `comparisons.nb` is an integer indicating the number of comparisons 
 * the slot `markers` is a character vector containing the marker names used in the comparisons
 * the slot `marker.weights` is a numeric vector containing the weigths associated to each marker involded in the comparisons
-* the slot `marker.distances` is a data.frame containing the marker similarity for each comparison (or NA in case of inclusion)
+* the slot `marker.distances` is a data.frame containing the marker similarity for each comparison
 * the slot `marker.successes` is a data.frame containing the marker successes for each comparison
 
 ## <a name="res_summarization"></a> 7.2. Summarization of comparison results
@@ -630,7 +631,9 @@ print(res.clusters_b.small)
 ```
 
 ## <a name="res_extraction"></a> 7.3. Extraction of comparison results
-The extract function `[i]` can be used to extract comparisons of `RES` objects. The parameter `i` represents a vector of the comparisons to extract. This vector can be a numeric, logical or character.
+The extract function `[i]` can be used to extract comparisons of `RES` objects. 
+The parameter `i` represents a vector of the comparisons to extract. 
+This vector can be a numeric, logical or character.
 
 For example, a subset of comparisons of a `RES` object can be extracted using the following command:
 
@@ -753,33 +756,18 @@ print(res.clusters)
 It is to note that the comparisons to combine must be unique.
 
 ## <a name="res_visualization"></a> 7.5. Visualization of single comparison results
-The `plot()` function can be used to plot the `RES` objects, via bar plots where each bar corresponds to a marker with a height proportional to the marker distances or inclusion assessments, and where the bars are colored if they model a success. Representations are generated using the `ggplot2` library [10] and can be modified by users.
+The `plot()` function can be used to plot the `RES` objects, via bar plots.
+In such representation each bar corresponds to a marker with a height proportional to the marker similarity measures, and where the bars are colored if they model a success in the Bernoulli experiment. 
+Representations are generated using the `ggplot2` library [10] and can be modified by users.
 
 Two `RES` objects, which contains one or several comparison results, can be plotted using the following commands:
 
 ```r
-# plots a named comparison results based on distance measurements
-plot(res.cells_b["CELL:b:3/vs/CELL:b:7"])
 # plots the second comparison results based on distance measurements
 plot(res.clusters_b.small[2])
-# plots the second comparison results based on distance measurements
-plot(res.gates[2])
 ```
 
 *In the first and second plot the cell profile and the cluster profiles are similar in contrary to the third plot where gate profiles seems to be strongly dissimilar*
-
-A `RES` object, which contains the result of inclusion assessments between a cell profile and a gate profile, can be plotted using the following command:
-
-```r
-# plots the 8th comparison result based on inclusion assessments
-plot(res.gates_mono.vs.b[8])
-# plots a named comparison result based on inclusion assessments
-plot(res.cells_b.vs.cluster_b["CELL:b:61/vs/CLUSTER:b:60"])
-#plots the first comparison result based on inclusion assessments
-plot(res.cluster_mono.vs.gate_mono[1])
-```
-
-*In the first plot, the cell profile is not included in the gate profile in contrary to the second and third plot where the cytometry profiles seems to be included in the other ones*
 
 If the `RES` object contains several comparison results, then all the different comparison results will be plotted separately using the following command:
 
@@ -789,13 +777,17 @@ If the `RES` object contains several comparison results, then all the different 
 ```
 
 ## <a name="res_d3js"></a> 7.6. Visualization of comparison results with D3.js
-The comparison results (i.e. a `RES` object) can also be visualized using circular graphs or using Multidimensional scaling (MDS) representations [11]. Both representations are generated as Scalable Vector Graphics (SVG) elements using the Data-Driven Documents library ([D3.js](http://d3js.org/)) [12]. Representation results are interactive and saved as HTML files. It is to note that, you can use the `webshot` R package to automatically convert these HTML files to png, jpg or pdf files.
-
+The comparison results (i.e. a `RES` object) can also be visualized using circular graphs or using Multidimensional scaling (MDS) representations [11]. 
+Both representations are generated as Scalable Vector Graphics (SVG) elements using the Data-Driven Documents library ([D3.js](http://d3js.org/)) [12]. 
+Representation results are interactive and saved as HTML files. 
+It is to note that, you can use the `webshot` R package to automatically convert these HTML files to png, jpg or pdf files.
 
 ### <a name="res_d3js_circular"></a> 7.6.a. Visualization of multiple comparison results
-In the case of a circular graph, each node in the representation is a cell, a cell cluster, or a gate profile. Links between nodes represent similar profiles, based on the aggregated p-values. Only comparison with a p-value below a specific threshold are represented.
+In the case of a circular graph, each node in the representation is a cell, a cell cluster, or a gate profile. Links between nodes represent similar profiles, based on the aggregated p-values. 
+Only comparison with a p-value below a specific threshold are represented.
 
-Through two sliders, users can specify the link tension in the representation and can change the p-value cutoff. In the HTML file, users can obtained more specific details about the significant similarities or inclusions by moving the mouse cursor over the links.
+Through two sliders, users can specify the link tension in the representation and can change the p-value cutoff. 
+In the HTML file, users can obtained more specific details about the significant similarities or inclusions by moving the mouse cursor over the links.
 
 Circular graph representations can be generated and saved as a HTML files using the following commands:
 
@@ -845,9 +837,11 @@ res.graph(res_graph,filename="graph_full.html")
 
 
 ### <a name="res_d3js_mds"></a> 7.6.b. MDS visualization
-MDS methods aim to represent the similarities and differences among high dimensionality objects into a space of a lower dimensions, generally in two or three dimensions for visualization purposes [11]. In MDS representations, the Kruskal Stress (KS) indicates the amount of information lost during the dimensionality reduction process.
+MDS methods aim to represent the similarities and differences among high dimensionality objects into a space of a lower dimensions, generally in two or three dimensions for visualization purposes [11].
+In MDS representations, the Kruskal Stress (KS) indicates the amount of information lost during the dimensionality reduction process.
 
-In the case of a MDS representation, each dot in the visualization represents a cell, a cell cluster or a gate profile. Distances between the dots are then proportional to comparison measures calculated between the profiles. It is to note that only complete `RES` objects of the same type can be represented in a MDS representation.
+In the case of a MDS representation, each dot in the visualization represents a cell cluster.
+Distances between the dots are then proportional to comparison measures calculated between the cluster.
 
 A MDS representation can be generated and saved as a HTML file using the following commands:
 
@@ -892,7 +886,8 @@ res.mds(res.clusters,"mds_clusters_colors.html",cols=cols)
 # <a name="miscellaneous"></a> 8. Miscellaneous functions
 
 # <a name="dheatmap"></a> 8.2. Density heatmap representations of cell cluster profiles
-Density heatmap of a `CLUSTER` object can be generated and plotted using the `dheatmap()` function. In such representation, each bar corresponds to a marker and the color gradient is proportional to the marker expression density. 
+Density heatmap of a `CLUSTER` object can be generated and plotted using the `dheatmap()` function.
+In such representation, each bar corresponds to a marker and the color gradient is proportional to the marker expression density. 
 
 A marker density heatmap representation of a `CLUSTER` object can be displayed using the following command:
 
@@ -983,7 +978,8 @@ compare(profile1,profile2,method="compare.sub",method.para=list(para1=1,para2=2)
 
 
 ##<a name="cluster_structure"></a> 10.3. Structure of CLUSTER object
-The `CLUSTER` object is a S4 object containing one or several cell cluster profiles. This object mainly stores for each cell cluster profile: the means, the standard deviations and the densities of each marker.
+The `CLUSTER` object is a S4 object containing one or several cell cluster profiles. 
+This object mainly stores for each cell cluster profile: the means, the standard deviations and the densities of each marker.
 
 Different slots are available for a given `CLUSTER` object:
 
