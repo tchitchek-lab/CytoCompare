@@ -20,7 +20,7 @@ CytoCompare can import clustering results from various algorithms including SPAD
 1. [Package overview](#package_overview)
 2. [Package installation](#package_installation)
 3. [Importation of cytometry cell clusters](#object_importation)
-    3. [Importation of cell clusters from viSNE FCS files](#visne_importation)
+    3. [Importation of cell clusters from viSNE/ACCENSE results](#visne_importation)
     4. [Importation of cell clusters from SPADE results](#spade_importation)
     5. [Importation of cell clusters from CITRUS results](#citrus_importation)
     6. [Importation of cell clusters from text files](#cluster_importation)
@@ -31,8 +31,6 @@ CytoCompare can import clustering results from various algorithms including SPAD
     1. [Visualization of cluster profiles](#cluster_visualization)
     2. [Pairwise visualization of cytometry profiles](#pairwise_visualization)
 6. [Comparisons of cytometry profiles](#object_comparison)
-    1. [Overview of the comparison approach](#compare_function)
-    2. [Comparisons between two cell cluster profiles](#cluster_cluster_compare)
 7. [Manipulation of comparison results](#res_object)
     1. [Structure of comparison results](#res_structure)
     2. [Summarization of comparison results](#res_summarization)
@@ -767,14 +765,27 @@ Two `RES` objects, which contains one or several comparison results, can be plot
 plot(res.clusters_b.small[2])
 ```
 
-*In the first and second plot the cell profile and the cluster profiles are similar in contrary to the third plot where gate profiles seems to be strongly dissimilar*
+```
+## [1] 0.35
+```
+
+<img src="README.figures/res_single_plot1-1.png" style="display: block; margin: auto;" />
+*The cell cluster profiles are similar*
 
 If the `RES` object contains several comparison results, then all the different comparison results will be plotted separately using the following command:
 
 ```r
 # plots three comparison results
-#plot(res.cells_mono[c(2,3,4)])
+plot(res.clusters_b.small[c(2,3,4)])
 ```
+
+```
+## [1] 0.35
+## [1] 0.35
+## [1] 0.35
+```
+
+<img src="README.figures/res_multiple_plot-1.png" style="display: block; margin: auto;" />
 
 ## <a name="res_d3js"></a> 7.6. Visualization of comparison results with D3.js
 The comparison results (i.e. a `RES` object) can also be visualized using circular graphs or using Multidimensional scaling (MDS) representations [11]. 
