@@ -3,19 +3,13 @@
 \docType{methods}
 \name{show}
 \alias{show}
-\alias{show,CELL-method}
 \alias{show,CLUSTER-method}
 \alias{show,DENSITY-method}
-\alias{show,GATE-method}
 \alias{show,MWEIGHTS-method}
 \alias{show,RES-method}
 \title{Textual preview for all S4 CytoCompare objects}
 \usage{
-\S4method{show}{CELL}(object)
-
 \S4method{show}{CLUSTER}(object)
-
-\S4method{show}{GATE}(object)
 
 \S4method{show}{RES}(object)
 

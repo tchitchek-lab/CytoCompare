@@ -5,15 +5,12 @@
 \alias{c}
 \alias{c,CELL-method}
 \alias{c,CLUSTER-method}
-\alias{c,GATE-method}
 \alias{c,RES-method}
 \title{Combination of CytoCompare objects}
 \usage{
 \S4method{c}{CELL}(x, ..., recursive = FALSE)
 
 \S4method{c}{CLUSTER}(x, ..., recursive = FALSE)
-
-\S4method{c}{GATE}(x, ..., recursive = FALSE)
 
 \S4method{c}{RES}(x, ..., recursive = FALSE)
 }

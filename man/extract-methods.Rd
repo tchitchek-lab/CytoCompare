@@ -2,19 +2,13 @@
 % Please edit documentation in R/classes.R
 \docType{methods}
 \name{extract}
-\alias{[,CELL,ANY-method}
 \alias{[,CLUSTER,ANY-method}
-\alias{[,GATE,ANY-method}
 \alias{[,MWEIGHTS,ANY-method}
 \alias{[,RES,ANY-method}
 \alias{extract}
 \title{Extraction of subsets of data from CytoCompare objects}
 \usage{
-\S4method{[}{CELL,ANY}(x, i, j)
-
 \S4method{[}{CLUSTER,ANY}(x, i, j)
-
-\S4method{[}{GATE,ANY}(x, i, j)
 
 \S4method{[}{MWEIGHTS,ANY}(x, i)
 

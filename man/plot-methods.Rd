@@ -3,50 +3,19 @@
 \docType{methods}
 \name{plot}
 \alias{plot}
-\alias{plot,CELL,CELL-method}
-\alias{plot,CELL,CLUSTER-method}
-\alias{plot,CELL,GATE-method}
-\alias{plot,CELL,missing-method}
-\alias{plot,CLUSTER,CELL-method}
 \alias{plot,CLUSTER,CLUSTER-method}
-\alias{plot,CLUSTER,GATE-method}
 \alias{plot,CLUSTER,missing-method}
 \alias{plot,DENSITY,missing-method}
-\alias{plot,GATE,CELL-method}
-\alias{plot,GATE,CLUSTER-method}
-\alias{plot,GATE,GATE-method}
-\alias{plot,GATE,missing-method}
 \alias{plot,MWEIGHTS,missing-method}
 \alias{plot,RES,missing-method}
 \title{Plot for all S4 CytoCompare objects}
 \usage{
 plot(object1, object2, ...)
 
-\S4method{plot}{CELL,missing}(object1, object2, overview = FALSE,
-  return.gg = FALSE)
-
 \S4method{plot}{CLUSTER,missing}(object1, object2, overview = FALSE,
   return.gg = FALSE)
 
-\S4method{plot}{GATE,missing}(object1, object2, return.gg = FALSE)
-
-\S4method{plot}{CELL,CELL}(object1, object2, return.gg = FALSE)
-
 \S4method{plot}{CLUSTER,CLUSTER}(object1, object2, return.gg = FALSE)
-
-\S4method{plot}{GATE,GATE}(object1, object2, return.gg = FALSE)
-
-\S4method{plot}{CELL,GATE}(object1, object2, return.gg = FALSE)
-
-\S4method{plot}{GATE,CELL}(object1, object2, return.gg = FALSE)
-
-\S4method{plot}{CELL,CLUSTER}(object1, object2, return.gg = FALSE)
-
-\S4method{plot}{CLUSTER,CELL}(object1, object2, return.gg = FALSE)
-
-\S4method{plot}{CLUSTER,GATE}(object1, object2, return.gg = FALSE)
-
-\S4method{plot}{GATE,CLUSTER}(object1, object2, return.gg = FALSE)
 
 \S4method{plot}{MWEIGHTS,missing}(object1, object2, return.gg = FALSE)
 

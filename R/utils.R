@@ -255,48 +255,6 @@ create.MWEIGHTS <- function(markers){
 }
 
 
-#' @title Installation of the packages required by CytoCompare
-#'
-#' @description Downloads and installs the R packages, from the CRAN (the Comprehensive R Archive Network) or Bioconductor, required to run CytoCompare.
-#'
-#' @details This function install the following packages: diptest, ggplot2, ggrepel, grid, igraph, MASS, RJSONIO, XML, flowCore and flowUtils.
-#' 
-#' @importFrom BiocInstaller biocLite 
-#' 
-#' @return none
-#'
-#' @export
-install.requiredpackages <- function(){
-    
-    cytocompare.install.package <- function(package){
-        if(require(package,character.only=TRUE)){
-            message(paste0(package," is correctly loaded"))
-        }else{
-            message(paste0("trying to install ",package))
-            utils::install.packages(package)
-            if(require(package,character.only=TRUE))
-                message(paste0(package," installed and loaded"))
-            else
-                stop(paste0("Can not install ",package))
-        }
-    }
-    
-	cytocompare.install.package('diptest')
-    cytocompare.install.package('ggplot2')
-    cytocompare.install.package('ggrepel')
-    cytocompare.install.package('grid')
-    cytocompare.install.package('igraph')
-    cytocompare.install.package('MASS')
-    cytocompare.install.package('RJSONIO')
-    cytocompare.install.package('XML')
-    
-    source("http://bioconductor.org/biocLite.R")
-    biocLite(suppressUpdates=TRUE)
-    biocLite("flowCore",suppressUpdates=TRUE)
-    biocLite("flowUtils",suppressUpdates=TRUE)
-}
-
-
 #' @title Retrieving of an example dataset of CytoCompare objects
 #'
 #' @description Downloads and loads an example dataset of CytoCompare objects constructed based on cytometry profiles obtained from healthy human bone marrow unstimulated or stimulated (PMID:21964415).

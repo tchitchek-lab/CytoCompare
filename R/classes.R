@@ -1,28 +1,28 @@
-#' @title CELL class definition
-#'
-#' @description CELL is a S4 object containing one or several cell profiles.
-#'
-#' @details This object mainly stores for each cell profile, the intensities of each marker.
-#'
-#' The slot 'trans.para' is a named list contains different parameters depending of the transformation applied on the marker expression intensities. The scale (cofactor) of the arcsinh transformation function is parametrized using the 'arcsinh.scale' value. The shift of the log transformation function is parametrized using the 'log.shift' value and the base of the log transformation function is parametrized using the 'log.base' value. If no transformation function have been applied, the 'trans.para' slot is set to NULL.
-#'
-#' @slot name a character indicating the internal name of the CELL object
-#' @slot profiles a character vector containing the names of the cell profiles 
-#' @slot profiles.nb an integer value indicating the number of cell profiles
-#' @slot markers a character vector containing the marker names
-#' @slot markers.nb an integer value indicating the number of markers
-#' @slot intensities a numeric matrix containing the intensities of each marker for each cell profile
-#' @slot trans a character specifying the name of a transformation function applied on the marker expression intensities. Possible values are "arcsinh" for arc sin hyperbolic transformation, "log" for logarithmic transformation, or "none" for no transformation
-#' @slot trans.para a named list containing parameters of the transformation. Please refer to the details section for more details
-#' @slot trans.exclude a character vector containing the marker names for which no transformation has been applied on
-#' @slot overview.function a character specifying the name of a function to call when plotting the CELL object overview (please refer to the documentation of the 'plot()' function)
-#' @slot layout a numeric matrix that can be used to store the positions of cells in a 2-dimensional space (e.g. tSNE1 and tSNE2 dimensions provided by viSNE)
-#'
-#' @import methods
-#'
-#' @name CELL-class
-#' @rdname CELL-class
-#' @exportClass CELL
+# @title CELL class definition
+#
+# @description CELL is a S4 object containing one or several cell profiles.
+#
+# @details This object mainly stores for each cell profile, the intensities of each marker.
+#
+# The slot 'trans.para' is a named list contains different parameters depending of the transformation applied on the marker expression intensities. The scale (cofactor) of the arcsinh transformation function is parametrized using the 'arcsinh.scale' value. The shift of the log transformation function is parametrized using the 'log.shift' value and the base of the log transformation function is parametrized using the 'log.base' value. If no transformation function have been applied, the 'trans.para' slot is set to NULL.
+#
+# @slot name a character indicating the internal name of the CELL object
+# @slot profiles a character vector containing the names of the cell profiles 
+# @slot profiles.nb an integer value indicating the number of cell profiles
+# @slot markers a character vector containing the marker names
+# @slot markers.nb an integer value indicating the number of markers
+# @slot intensities a numeric matrix containing the intensities of each marker for each cell profile
+# @slot trans a character specifying the name of a transformation function applied on the marker expression intensities. Possible values are "arcsinh" for arc sin hyperbolic transformation, "log" for logarithmic transformation, or "none" for no transformation
+# @slot trans.para a named list containing parameters of the transformation. Please refer to the details section for more details
+# @slot trans.exclude a character vector containing the marker names for which no transformation has been applied on
+# @slot overview.function a character specifying the name of a function to call when plotting the CELL object overview (please refer to the documentation of the 'plot()' function)
+# @slot layout a numeric matrix that can be used to store the positions of cells in a 2-dimensional space (e.g. tSNE1 and tSNE2 dimensions provided by viSNE)
+#
+# @import methods
+#
+# @name CELL-class
+# @rdname CELL-class
+# @exportClass CELL
 CELL <- setClass("CELL",
     slots=c(name      = "character",
 		profiles          = "character",
@@ -166,67 +166,6 @@ setMethod("initialize",c("CLUSTER"),
         .Object@graph              <- graph
         .Object@graph.layout       <- graph.layout
         .Object@densities          <- densities
-        validObject(.Object)
-        return(.Object)
-    }
-)
-
-#' @title GATE class definition
-#'
-#' @description GATE is a S4 object containing one or several gate profiles.
-#'
-#' @details This object mainly stores for each gate profile, the intensity ranges of each marker. 
-#'
-#' @slot name a character indicating the internal name of the GATE object
-#' @slot profiles a character vector containing the names of the gate profiles
-#' @slot profiles.nb an integer value indicating the number of cell gate profiles
-#' @slot markers a character vector containing the marker names
-#' @slot markers.nb an integer value indicating the number of markers
-#' @slot ranges a 3-dimensional numeric array containing the intensity ranges of each marker for each gate profile
-#'
-#' @import methods
-#'
-#' @name GATE-class
-#' @rdname GATE-class
-#' @exportClass GATE
-#' @export GATE
-GATE <- setClass("GATE",
-    slots=c(name    = "character",
-        profiles    = "character",
-        profiles.nb = "integer",
-        markers     = "character",
-        markers.nb  = "integer",
-        ranges      = "array"),
-    validity=function(object){
-        if(length(object@profiles)!=length(unique(object@profiles)))
-            stop("Error in profiles slot: profile names are not unique")
-        if(length(object@markers)!=length(unique(object@markers)))
-            stop("Error in markers slot: marker names are not unique")
-        if(object@profiles.nb!=length(object@profiles))
-            stop("Error in profiles.nb slot: profiles.nb do not correspond to the number of profile names")
-        if(object@markers.nb!=length(object@markers))
-            stop("Error in markers.nb slot: markers.nb do not correspond to the number of marker names")
-        if(object@profiles.nb==0)
-            stop("Error can not create a GATE object with no profile")
-        return(TRUE)
-    }
-)
-setMethod("initialize",c("GATE"),
-    function(.Object,
-            name        = "",
-            profiles    = "",
-            profiles.nb = 0,
-            markers     = "",
-            markers.nb  = 0,
-            ranges      = as.matrix(0)){
-        if(profiles.nb==0)
-            stop("Error can not create a GATE object with no profile")
-        .Object@name        <- name     
-        .Object@profiles    <- profiles
-        .Object@profiles.nb <- profiles.nb
-        .Object@markers     <- markers
-        .Object@markers.nb  <- markers.nb
-        .Object@ranges      <- ranges
         validObject(.Object)
         return(.Object)
     }
@@ -397,73 +336,10 @@ inner.intersect <- function(object1,object2){
 #' @rdname intersect-methods
 NULL
 
-#' @rdname intersect-methods
-#' @export
-setMethod("intersect",c("CELL","CELL"),
-    function(x,y){
-        inner.intersect(x,y)
-    }
-)
 
 #' @rdname intersect-methods
 #' @export
 setMethod("intersect",c("CLUSTER","CLUSTER"),
-    function(x,y){
-        inner.intersect(x,y)
-    }
-)
-
-#' @rdname intersect-methods
-#' @export
-setMethod("intersect",c("GATE","GATE"),
-    function(x,y){
-        inner.intersect(x,y)
-    }
-)          
-
-#' @rdname intersect-methods
-#' @export
-setMethod("intersect",c("CELL","CLUSTER"),
-    function(x,y){
-        inner.intersect(x,y)
-    }
-)
-
-#' @rdname intersect-methods
-#' @export
-setMethod("intersect",c("CELL","GATE"),
-    function(x,y){
-        inner.intersect(x,y)
-    }
-)
-
-#' @rdname intersect-methods
-#' @export
-setMethod("intersect",c("CLUSTER","GATE"),
-    function(x,y){
-        inner.intersect(x,y)
-    }
-)
-
-#' @rdname intersect-methods
-#' @export
-setMethod("intersect",c("CLUSTER","CELL"),
-    function(x,y){
-        inner.intersect(x,y)
-    }
-)
-
-#' @rdname intersect-methods
-#' @export
-setMethod("intersect",c("GATE","CELL"),
-    function(x,y){
-        inner.intersect(x,y)
-    }
-)
-
-#' @rdname intersect-methods
-#' @export
-setMethod("intersect",c("GATE","CLUSTER"),
     function(x,y){
         inner.intersect(x,y)
     }
@@ -490,60 +366,6 @@ setMethod("intersect",c("GATE","CLUSTER"),
 #' @rdname extract-methods
 NULL
 
-#' @rdname extract-methods
-#' @export
-setMethod("[",c("CELL","ANY","ANY"),
-    function(x,i,j){
-
-        if(!missing(i) && length(i)>x@profiles.nb)
-            stop("Too many cluster profiles to extract")
-        if(!missing(j) && length(j)>length(x@markers))
-            stop("Too many markers to extract")
-        if(!missing(i) && !(is.logical(i) || is.numeric(i) || is.character(i)))
-            stop(paste0("Wrong types in i: ",typeof(i)))
-        if(!missing(j) && !(is.logical(j) || is.numeric(j) || is.character(j)))
-            stop(paste0("Wrong types in j: ",typeof(j)))
-                
-        if(missing(i)){
-            k <- 1:x@profiles.nb
-        }else{
-            if(is.character(i)){
-                k <- which(x@profiles %in% i)
-            }else{
-                k <- i
-            }
-        }
-        
-        if(missing(j)){
-            l <- 1:length(x@markers)
-        }else{
-            if(is.character(j)){
-                l <- match(j,x@markers)
-            }else{
-                l <- j
-            }    
-        }
-
-        if(missing(i)){
-            layout            <- x@layout
-            overview.function <- x@overview.function 
-        }else{
-            layout            <- as.matrix(0)
-            overview.function <- ""
-        }
-        
-        cell <- CELL(name      = x@name,
-            profiles           = x@profiles[k],
-            profiles.nb        = length(x@profiles[k]),
-            markers            = x@markers[l],
-            markers.nb         = length(x@markers[l]),
-            intensities        = x@intensities[k,l,drop=FALSE],
-            layout             = layout,
-            overview.function  = overview.function)
-            
-        return(cell)
-    }
-)
 
 #' @rdname extract-methods
 #' @export
@@ -606,49 +428,6 @@ setMethod("[",c("CLUSTER","ANY","ANY"),
     }
 )
 
-#' @rdname extract-methods
-#' @export
-setMethod("[",c("GATE","ANY","ANY"),
-    function(x,i,j){
-        
-        if(!missing(i) && length(i)>x@profiles.nb)
-            stop("Too many cluster profiles to extract")
-        if(!missing(j) && length(j)>length(x@markers))
-            stop("Too many markers to extract")
-        if(!missing(i) && !(is.logical(i) || is.numeric(i) || is.character(i)))
-            stop(paste0("Wrong types in i: ",typeof(i)))
-        if(!missing(j) && !(is.logical(j) || is.numeric(j) || is.character(j)))
-            stop(paste0("Wrong types in j: ",typeof(j)))
-                
-        if(missing(i)){
-            k  <- 1:x@profiles.nb
-        }else{
-            if(is.character(i)){
-                k <- which(x@profiles %in% i)
-            }else{
-                k <- i
-            }
-        }
-        
-        if(missing(j)){
-            l <- 1:length(x@markers)
-        }else{
-            if(is.character(j)){
-                l <- match(j,x@markers)
-            }else{
-                l <- j
-            }
-        }
-        
-        gate <- GATE(name = x@name,
-            profiles      = x@profiles[k],
-            profiles.nb   = length(x@profiles[k]),
-            markers       = x@markers[l],
-            markers.nb    = length(x@markers[l]),
-            ranges        = x@ranges[k,l,,drop=FALSE])
-        return(gate)
-    }
-)
 
 #' @rdname extract-methods
 #' @export
@@ -885,52 +664,6 @@ setMethod("c",c("CLUSTER"),
     }
 )
 
-#' @rdname c-methods
-#' @export
-setMethod("c",c("GATE"),       
-    function(x,...){
-
-        other.GATE     <- list(x,...)
-        name           <- c()
-        markers        <- c()
-        profiles       <- c()
-        profiles.nb    <- 0
-        
-        i <- 1
-        for(gate in other.GATE){
-            if(class(gate) != "GATE")
-                stop(paste0("Cannot combine objects of different classes (element at position ",i," is of type ",class(gate)))
-            name           <- c(name,gate@name)
-            profiles       <- c(profiles,gate@profiles)
-            markers        <- union(markers,gate@markers)
-            profiles.nb    <- profiles.nb+gate@profiles.nb
-            i <- i+1
-        }
-        if(length(profiles)!=length(unique(profiles))){
-            stop("Error: profile names are not unique")
-        }
-        
-        name <- paste0(name,collapse=";")
-        
-        ranges           <- numeric(length(profiles)*length(markers)*2)*NA
-        dim(ranges)      <- c(length(profiles),length(markers),2)
-        dimnames(ranges) <- list(profiles,markers,c("inf","sup"))
-        i  <- 1
-        for(gate in other.GATE){ 
-            nb                               <- gate@profiles.nb
-            ranges[i:(i+nb-1),gate@markers,] <- gate@ranges
-            i <- i+nb
-        }
-
-        gate <- GATE(name = name,
-            profiles      = profiles,
-            profiles.nb   = length(profiles),
-            markers       = markers,
-            markers.nb    = length(markers),
-            ranges        = ranges)
-        return(gate)
-    }
-)
 
 #' @rdname c-methods
 #' @export
@@ -1119,62 +852,3 @@ setMethod("as.CLUSTER",c("matrix"),
     }
 )
 
-
-#' @title Coercion to a GATE object
-#'
-#' @description Coerces a CELL or CLUSTER object into a GATE object.
-#'
-#' This function transforms cell or cell cluster profiles from a CELL or CLUSTER object into one or several gate profiles by computing the range of each marker. 
-#'
-#' @details By default the expression ranges are computed based on the 0.01 and 0.99 quantiles of the marker expression densities, but can be specified by the user. If quantiles is set to 0 and 1, then the expression ranges will correspond to the minimal and maximal values of the expression markers.
-#'
-#' If several cell cluster profiles are present in a CLUSTER object, then the resulting GATE object will contain as many gate profiles.
-#'
-#' @param object a CELL or CLUSTER object
-#' @param name a character specifying the internal name of the GATE object to create
-#' @param quantiles a numeric vector of two values specifying the quantiles to use for the computations of marker expression ranges
-#'
-#' @return a S4 object of class GATE
-#'
-#' @name as.GATE
-#' @rdname as.GATE-methods
-#'
-#' @export
-setGeneric("as.GATE", function(object,name=object@name,quantiles=c(0.01,0.99)) { standardGeneric("as.GATE") })
-
-#' @rdname as.GATE-methods
-#' @export
-setMethod("as.GATE",c("CELL"),
-    function(object,name,quantiles){
-        ranges           <- apply(object@intensities,2,FUN=stats::quantile,probs=quantiles)
-        ranges           <- c(ranges[1,],ranges[2,])
-        dim(ranges)      <- c(1,length(object@markers),2)
-        dimnames(ranges) <- list(NULL,NULL,c("inf","sup"))
-        gate <- GATE(name = name,
-            profiles      = object@name,
-            profiles.nb   = length(object@name),
-            markers       = object@markers,
-            markers.nb    = length(object@markers),
-            ranges        = ranges)
-        return(gate)
-    }
-)
-
-#' @rdname as.GATE-methods
-#' @export
-setMethod("as.GATE",c("CLUSTER"),
-    function(object,name,quantiles){
-        ranges_inf       <- stats::qnorm(quantiles[1],object@means,object@sd)
-        ranges_sup       <- stats::qnorm(quantiles[2],object@means,object@sd)
-        ranges           <- cbind(ranges_inf,ranges_sup)
-        dim(ranges)      <- c(object@profiles.nb,object@markers.nb,2)
-        dimnames(ranges) <- list(NULL,NULL,c("inf","sup"))
-        gate <- GATE(name = name,
-            profiles      = object@profiles,
-            profiles.nb   = length(object@profiles),
-            markers       = object@markers,
-            markers.nb    = length(object@markers),
-            ranges        = ranges)
-        return(gate)
-    }
-)

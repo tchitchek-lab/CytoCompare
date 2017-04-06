@@ -3,19 +3,13 @@
 \docType{methods}
 \name{print}
 \alias{print}
-\alias{print,CELL-method}
 \alias{print,CLUSTER-method}
 \alias{print,DENSITY-method}
-\alias{print,GATE-method}
 \alias{print,MWEIGHTS-method}
 \alias{print,RES-method}
 \title{Textual preview for all S4 CytoCompare objects}
 \usage{
-\S4method{print}{CELL}(x)
-
 \S4method{print}{CLUSTER}(x)
-
-\S4method{print}{GATE}(x)
 
 \S4method{print}{RES}(x)
 

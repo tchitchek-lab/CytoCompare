@@ -45,81 +45,33 @@ exclude.markers <- function(data,exclude){
     data    <- data[,!(colnames(data) %in% exclude)]
     return(data)
 }
- 
 
-#' @title Importation of cell profiles from a tab separated file
-#'
-#' @description Imports one or several cell profiles from a tab separated file into a CELL object.
-#'
-#' @details Tab separated file to import must contain for each cell profile the intensities of the marker and must be formatted as the following:\cr
-#' * each row must represent a cell profile;\cr
-#' * each column must represent a marker;\cr
-#' * each cell in the table must contain the marker expression intensities for a given cell profile;\cr
-#' The first column must contain the cell names and the first row must contain the marker names.
-#'
-#' @param file a character indicating the location of a tab separated file to import
-#' @param dictionary a two-column data.frame providing the correspondence between the original marker names (first column) and the new marker names (second column)
-#' @param exclude a character vector containing the marker names to be excluded in the import procedure
-#'
-#' @return a S4 object of class CELL
-#'
-#' @export
-import.CELL <- function(file,
-                        dictionary = NULL,
-                        exclude    = NULL){
-    
-    message(paste0("Importing ",file))
-    if(!file.exists(file))
-        stop(paste0("Error in import.CELL: ",file," does not exist"))
-    
-    data     <- utils::read.table(file,header=TRUE,sep="\t",row.names=1,stringsAsFactors=FALSE,check.names=FALSE)
-    profiles <- rownames(data)
-    data     <- as.matrix(data)
-    
-    if(!is.null(dictionary)){
-        colnames(data) <- rename.markers(colnames(data),dictionary)
-    }
-    if(!is.null(exclude)){
-        data <- exclude.markers(data,exclude)
-    }
-    markers        <- colnames(data)
-    dimnames(data) <- NULL
-    
-    cell <- CELL(name = basename(file),
-        profiles      = profiles,
-        profiles.nb   = nrow(data),
-        markers       = markers,
-        markers.nb    = length(markers),
-        intensities   = data)
-        
-    return(cell)
-}
 
-#' @title Importation of cell profiles from one or several FCS files
-#' 
-#' @description Imports one or several cell profiles from a FCS file or from a set of FCS files into a CELL object.
-#'
-#' @details If a set of files is specified, then the files are merged in the import procedure.
-#'
-#' Several transformations can be applied on the expression marker intensities via the 'trans' parameter:
-#' 
-#' The transformation functions can be parametrized using the named list 'trans.para'. The scale (cofactor) of the arcsinh transformation function can be parametrized using the 'arcsinh.scale' value. The shift of the log transformation function can be parametrized using the 'log.shift' value and the base of the log transformation function can be parametrized using the 'log.base' value. The 'log.shift' allows the value "auto" which automatically identify the log shift avoiding to apply log transformations on negative values.
-#' 
-#' The 'rescale' parameter can be used to rescale the marker expression intensities from 0 to 1 (with respect to the distribution proportion). The rescaling can be performed based on minimal and maximal expression values or based on specified quantiles using the 'rescale.quantiles' parameter. This strategy is especialy usefull when comparing cell or cell cluster profiles obtained from different experimental/staining conditions. 
-#'    
-#' @importFrom flowCore exprs read.FCS
-#'
-#' @param path a character vector indicating the location to a FCS file or to a set of FCS files
-#' @param exclude a character vector containing the marker names to be excluded in the import procedure
-#' @param trans a character specifying the name of a transformation function to apply on the marker expression intensities. Possible functions are "arcsinh" for arc sin hyperbolic transformation (default), "log" for logarithmic transformation, or "none" for no transformation
-#' @param trans.para a named list containing parameters for the transformation. Please refer to the details section for more details
-#' @param trans.exclude a character vector containing the marker names for which no transformation must be applied on (including the rescaling transformation)
-#' @param rescale a logical specifying if marker expression intensities must be rescale between 0 and 1
-#' @param rescale.quantiles a numeric vector of two values specifying the quantiles of the marker expression intensities used to rescale
-#'
-#' @return a S4 object of class CELL
-#'
-#' @export
+# @title Importation of cell profiles from one or several FCS files
+# 
+# @description Imports one or several cell profiles from a FCS file or from a set of FCS files into a CELL object.
+#
+# @details If a set of files is specified, then the files are merged in the import procedure.
+#
+# Several transformations can be applied on the expression marker intensities via the 'trans' parameter:
+# 
+# The transformation functions can be parametrized using the named list 'trans.para'. The scale (cofactor) of the arcsinh transformation function can be parametrized using the 'arcsinh.scale' value. The shift of the log transformation function can be parametrized using the 'log.shift' value and the base of the log transformation function can be parametrized using the 'log.base' value. The 'log.shift' allows the value "auto" which automatically identify the log shift avoiding to apply log transformations on negative values.
+# 
+# The 'rescale' parameter can be used to rescale the marker expression intensities from 0 to 1 (with respect to the distribution proportion). The rescaling can be performed based on minimal and maximal expression values or based on specified quantiles using the 'rescale.quantiles' parameter. This strategy is especialy usefull when comparing cell or cell cluster profiles obtained from different experimental/staining conditions. 
+#    
+# @importFrom flowCore exprs read.FCS
+#
+# @param path a character vector indicating the location to a FCS file or to a set of FCS files
+# @param exclude a character vector containing the marker names to be excluded in the import procedure
+# @param trans a character specifying the name of a transformation function to apply on the marker expression intensities. Possible functions are "arcsinh" for arc sin hyperbolic transformation (default), "log" for logarithmic transformation, or "none" for no transformation
+# @param trans.para a named list containing parameters for the transformation. Please refer to the details section for more details
+# @param trans.exclude a character vector containing the marker names for which no transformation must be applied on (including the rescaling transformation)
+# @param rescale a logical specifying if marker expression intensities must be rescale between 0 and 1
+# @param rescale.quantiles a numeric vector of two values specifying the quantiles of the marker expression intensities used to rescale
+#
+# @return a S4 object of class CELL
+#
+# @export
 import.FCS <- function(path,
                         exclude           = NULL,
                         trans             = "arcsinh",
@@ -195,57 +147,6 @@ import.FCS <- function(path,
     cell@trans         <- trans
     cell@trans.para    <- trans.para
     cell@trans.exclude <- trans.exclude
-    return(cell)
-}
-
-
-#' @title Importation of cell profiles from viSNE FCS files
-#'
-#' @description Imports viSNE FCS files containing one or several cell profiles into a CELL object.
-#'
-#' @details ViSNE is a dimensionality reduction algorithm designed for analysis and visualization of high-dimensionality cytometry data (PMID:23685480). In a viSNE map, each dot of the representation corresponds to a cell profile in a two-dimensional space (tSNE1 and tSNE2 dimensions).
-#' 
-#' The 'rescale' parameter can be used to rescale the marker expression intensities from 0 to 1 (with respect to the distribution proportion). The rescaling can be performed based on minimal and maximal expression values or based on specified quantiles using the 'rescale.quantiles' parameter. This strategy is especialy usefull when comparing cell or cell cluster profiles obtained from different experimental/staining conditions. 
-#' 
-#' @param path a character vector indicating the location to a viSNE FCS file or to a set of viSNE FCS files
-#' @param dictionary a two-column data.frame providing the correspondence between the original marker names (first column) and the new marker names (second column)
-#' @param exclude a character vector containing the marker names to be excluded in the import procedure
-#' @param trans a character specifying the name of a transformation function to apply on the marker expression intensities. Possible functions are "arcsinh" for arc sin hyperbolic transformation (default), "log" for logarithmic transformation, or "none" for no transformation
-#' @param trans.para a named list containing parameters for the transformation. Please refer to the details section for more details
-#' @param trans.exclude a character vector containing the marker names for which no transformation must be applied on
-#' @param tSNE1 a character indicating the marker name of the first viSNE dimension (tSNE1)
-#' @param tSNE2 a character indicating the marker name of the second viSNE dimension (tSNE2)
-#' @param rescale a logical specifying if marker expression intensities must be rescale between 0 and 1
-#' @param rescale.quantiles a numeric vector of two values specifying the quantiles of the marker expression intensities used to rescale
-#'
-#' @return a S4 object of class CELL
-#'
-#' @export
-import.VISNE <- function(path,
-                        dictionary        = NULL,
-                        exclude           = NULL,
-                        trans             = "arcsinh",
-						trans.para	      = switch(trans,
-												   "arcsinh" = list(arcsinh.scale=5),
-												   "log"     = list(log.shift="auto",log.base=10),
-												   "none"    = NULL),
-                        trans.exclude     = NULL,
-                        tSNE1             = "tSNE1",
-                        tSNE2         	  = "tSNE2",
-                        rescale           = FALSE,
-                        rescale.quantiles = c(0,1)){
-                         
-    cell <- import.FCS(path,
-        trans             = trans,
-        trans.para        = trans.para,
-        trans.exclude     = unique(c(trans.exclude,"cluster")),
-        exclude           = exclude,
-		rescale           = rescale,
-		rescale.quantiles = rescale.quantiles)
-    
-    cell@layout   <- cell[,c(tSNE1,tSNE2)]@intensities
-    cell@overview.function  <- "ggplot.viSNEmap"
-    
     return(cell)
 }
 
@@ -482,128 +383,6 @@ import.CITRUS <- function(file,
     return(cluster)
 }
 
-
-#' @title Importation of range gate profiles from a tab separated file
-#'
-#' @description Imports one or several range gate profiles from a tab separated file into a GATE object.
-#'
-#' @details Tab separated file to import must contain for each gate profile the ranges of the expression markers and must be formatted as the following:\cr
-#' * each row must represent a gate profile;\cr
-#' * each column must represent a marker;\cr
-#' * each cell in the table must contain the marker expression lower and upper bounds for a given gate profile separated by a semicolon.\cr
-#' The first column must contain the gate names and the first row must contain the marker names.
-#'
-#' @param file a character indicating the location of a tab separated file to import
-#' @param exclude a character vector containing the marker names to be excluded in the import procedure
-#'
-#' @return a S4 object of class GATE
-#'
-#' @export
-import.GATE <- function(file,
-                        exclude    = NULL){
-    
-    message(paste0("Importing ",file))
-    if(!file.exists(file))
-        stop(paste0("Error in import.GATE: ",file," does not exist"))
-    
-    data <- utils::read.table(file,header=TRUE,sep="\t",row.names=1,stringsAsFactors=FALSE,check.names=FALSE)
-    
-    if(!is.null(exclude)){
-        data <- exclude.markers(data,exclude)
-    }
-    markers        <- colnames(data)
-    
-    ranges_inf     <- matrix(0,nrow=nrow(data),ncol=ncol(data))
-    ranges_sup     <- matrix(0,nrow=nrow(data),ncol=ncol(data))
-    for(i in 1:nrow(data)){
-        for(j in 1:ncol(data)){
-            tab <- unlist(strsplit(data[i,j],split=":",fixed=TRUE))
-            ranges_inf[i,j] <- as.numeric(tab[1])
-            ranges_sup[i,j] <- as.numeric(tab[2])
-        }
-    }
-    
-    ranges           <- cbind(ranges_inf,ranges_sup)
-    dim(ranges)      <- c(nrow(data),ncol(data),2)
-    dimnames(ranges) <- list(NULL,NULL,c("inf","sup"))
-    
-    gate <- GATE(name  = basename(file),
-        markers        = markers,
-        markers.nb     = ncol(data),
-        profiles       = as.character(rownames(data)),
-        profiles.nb    = nrow(data),
-        ranges         = ranges)
-    return(gate)
-}
-
-
-#' @title Importation of  range gate profiles from a Gating-ML file
-#'
-#' @description Imports one or several range gate profiles from a Gating-ML file into a GATE object.
-#'
-#' @details Gating-ML is a standard file format for gate definitions developed to facilitate the interchange between different analysis software. Gating-ML rectangular gates, that are defined by ranges of expression markers, can be imported in CytoCompare using this function.\cr
-#'
-#' @import XML
-#'
-#' @param file a character indicating the location of a Gating-ML xml file to import
-#' @param filterId a character vector indicating the identifiers of the gates to import
-#'
-#' @return a S4 object of class GATE
-#'
-#' @export
-import.GATINGML <- function(file,filterId=NULL){
-    
-    message(paste0("Importing ",file))
-    if(!file.exists(file))
-        stop(paste0("Error in import.GATE: ",file," does not exist"))
-    
-    # the flowUtils::read.gatingML function seems to be not correctly exported in the flowUtils package and cannot be used
-    # alternative is to parse the Gating-ML file via the XML library
-    xml     <- XML::xmlParse(file) 
-    xmltop  <- XML::xmlRoot(xml)
-
-    gate    <- list()
-    count   <- 1
-    for(i in 1:length(XML::xmlChildren(xmltop))){
-        element <- xmltop[[i]]
-        
-        if(XML::xmlName(element)=="RectangleGate"){
-            
-            id <- XML::xmlAttrs(element)[["id"]]
-            
-            if(is.null(filterId) || (!is.null(filterId) && id %in% filterId)){
-                marker1          <- element[[2]]
-                marker1_min      <- as.numeric(XML::xmlAttrs(marker1)[["min"]])
-                marker1_max      <- as.numeric(XML::xmlAttrs(marker1)[["max"]])
-                marker1_name     <- XML::xmlAttrs(marker1[[1]])[["name"]]
-                
-                marker2          <- element[[3]]
-                marker2_min      <- as.numeric(XML::xmlAttrs(marker2)[["min"]])
-                marker2_max      <- as.numeric(XML::xmlAttrs(marker2)[["max"]])
-                marker2_name     <- XML::xmlAttrs(marker2[[1]])[["name"]]
-                
-                ranges_inf       <- c(marker1_min,marker2_min)
-                ranges_sup       <- c(marker1_max,marker2_max)
-                markers          <- c(marker1_name,marker2_name)
-                    
-                ranges           <- c(ranges_inf,ranges_sup)
-                dim(ranges)      <- c(1,length(markers),2)
-                dimnames(ranges) <- list(NULL,NULL,c("inf","sup"))
-                
-                gate[[count]] <- GATE(profiles = id,
-                    profiles.nb                = as.integer(1),
-                    markers                    = markers,
-                    markers.nb                 = length(markers),
-                    ranges                     = ranges)
-                count <- count+1
-            }
-        }
-    }
-    
-    gate      <- do.call("c",gate)
-    gate@name <- basename(file)
-    return(gate)
-}
 
 # title Internal - Extract a dictionary from a FCS file
 #

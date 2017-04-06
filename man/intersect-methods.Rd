@@ -3,34 +3,10 @@
 \docType{methods}
 \name{intersect}
 \alias{intersect}
-\alias{intersect,CELL,CELL-method}
-\alias{intersect,CELL,CLUSTER-method}
-\alias{intersect,CELL,GATE-method}
-\alias{intersect,CLUSTER,CELL-method}
 \alias{intersect,CLUSTER,CLUSTER-method}
-\alias{intersect,CLUSTER,GATE-method}
-\alias{intersect,GATE,CELL-method}
-\alias{intersect,GATE,CLUSTER-method}
-\alias{intersect,GATE,GATE-method}
 \title{Identification of common markers between two cytometry objects}
 \usage{
-\S4method{intersect}{CELL,CELL}(x, y)
-
 \S4method{intersect}{CLUSTER,CLUSTER}(x, y)
-
-\S4method{intersect}{GATE,GATE}(x, y)
-
-\S4method{intersect}{CELL,CLUSTER}(x, y)
-
-\S4method{intersect}{CELL,GATE}(x, y)
-
-\S4method{intersect}{CLUSTER,GATE}(x, y)
-
-\S4method{intersect}{CLUSTER,CELL}(x, y)
-
-\S4method{intersect}{GATE,CELL}(x, y)
-
-\S4method{intersect}{GATE,CLUSTER}(x, y)
 }
 \arguments{
 \item{x}{a CELL, CLUSTER or GATE object}

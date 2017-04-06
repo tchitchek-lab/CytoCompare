@@ -19,7 +19,7 @@ res.graph <- function(res,filename="res.html",svgsize=1000,pvalue.th=0.2){
     clean.res_names <- function(x){
         x.splited <- unlist(strsplit(x,split=":"))
         middle    <- paste0(x.splited[2:(length(x.splited)-1)],collapse=".")
-        middle    <- gsub("[^a-zA-Z1-9]",".",middle)
+        middle    <- gsub("[^a-zA-Z0-9]",".",middle)
         ret       <- paste0(x.splited[1],":",middle,":",x.splited[length(x.splited)])
     }
     
@@ -129,7 +129,7 @@ res.mds <- function(res,filename="res.html",cols=NULL,sizes=NULL,svgsize=1000){
     clean.res_names <- function(x){
         x.splited <- unlist(strsplit(x,split=":"))
         middle    <- paste0(x.splited[2:(length(x.splited)-1)],collapse=".")
-        middle    <- gsub("[^a-zA-Z1-9]",".",middle)
+        middle    <- gsub("[^a-zA-Z0-9]",".",middle)
         ret       <- paste0(x.splited[1],":",middle,":",x.splited[length(x.splited)])
     }
     

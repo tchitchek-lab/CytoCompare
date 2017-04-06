@@ -12,19 +12,6 @@ NULL
 
 #' @rdname print-methods
 #' @export
-setMethod("print","CELL",
-    function(x){
-        cat("Object class: CELL\n")
-        cat(paste0("Object name: ",x@name,"\n"))
-        cat(paste0("Number of cell profiles: ",x@profiles.nb,"\n"))
-        cat(paste0("Number of markers: ",length(x@markers),"\n"))
-        cat("Markers: \n")
-        cat(x@markers,sep="\n")
-    }
-)
-
-#' @rdname print-methods
-#' @export
 setMethod("print","CLUSTER",
     function(x){
         cat("Object class: CLUSTER\n")
@@ -53,24 +40,6 @@ setMethod("print","CLUSTER",
     }
 )
 
-#' @rdname print-methods
-#' @export
-setMethod("print","GATE",
-    function(x){
-        cat("Object class: GATE\n")
-        cat(paste0("Object name: ",x@name,"\n"))
-        cat(paste0("Number of gate profiles: ",x@profiles.nb,"\n"))
-        cat("Markers: \n")
-        cat(x@markers,sep="\n")
-        cat(paste0("Number of markers: ",length(x@markers),"\n"))
-        cat("Gate profile names: \n")
-        n<-5
-        cat(paste0(" ",utils::head(x@profiles,n),collapse="\n"))
-        if(length(x@profiles)>n)
-            cat(paste0("and ",(length(x@profiles) - n)," more..."))
-        cat("\n")
-    }
-)
 
 #' @rdname print-methods
 #' @export
@@ -133,15 +102,7 @@ NULL
 
 #' @rdname show-methods
 #' @export
-setMethod("show","CELL", function(object) print(object))
-
-#' @rdname show-methods
-#' @export
 setMethod("show","CLUSTER", function(object) print(object))
-
-#' @rdname show-methods
-#' @export
-setMethod("show","GATE", function(object) print(object))
 
 #' @rdname show-methods
 #' @export

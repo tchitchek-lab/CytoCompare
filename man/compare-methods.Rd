@@ -3,56 +3,16 @@
 \docType{methods}
 \name{compare}
 \alias{compare}
-\alias{compare,CELL,CELL-method}
-\alias{compare,CELL,CLUSTER-method}
-\alias{compare,CELL,GATE-method}
-\alias{compare,CELL,missing-method}
-\alias{compare,CLUSTER,CELL-method}
 \alias{compare,CLUSTER,CLUSTER-method}
-\alias{compare,CLUSTER,GATE-method}
 \alias{compare,CLUSTER,missing-method}
-\alias{compare,GATE,CELL-method}
-\alias{compare,GATE,CLUSTER-method}
-\alias{compare,GATE,GATE-method}
-\alias{compare,GATE,missing-method}
 \title{Compare two cytometry profiles.}
 \usage{
 compare(object1, object2, ...)
 
-\S4method{compare}{CELL,missing}(object1, mweights = NULL,
-  method = "compare_default", method.params = NULL)
-
 \S4method{compare}{CLUSTER,missing}(object1, mweights = NULL,
   method = "compare_default", method.params = NULL)
 
-\S4method{compare}{GATE,missing}(object1, mweights = NULL,
-  method = "compare_default", method.params = NULL)
-
-\S4method{compare}{CELL,CELL}(object1, object2, mweights = NULL,
-  method = "compare_default", method.params = NULL)
-
 \S4method{compare}{CLUSTER,CLUSTER}(object1, object2, mweights = NULL,
-  method = "compare_default", method.params = NULL)
-
-\S4method{compare}{GATE,GATE}(object1, object2, mweights = NULL,
-  method = "compare_default", method.params = NULL)
-
-\S4method{compare}{CELL,CLUSTER}(object1, object2, mweights = NULL,
-  method = "compare_default", method.params = NULL)
-
-\S4method{compare}{CLUSTER,CELL}(object1, object2, mweights = NULL,
-  method = "compare_default", method.params = NULL)
-
-\S4method{compare}{CELL,GATE}(object1, object2, mweights = NULL,
-  method = "compare_default", method.params = NULL)
-
-\S4method{compare}{GATE,CELL}(object1, object2, mweights = NULL,
-  method = "compare_default", method.params = NULL)
-
-\S4method{compare}{CLUSTER,GATE}(object1, object2, mweights = NULL,
-  method = "compare_default", method.params = NULL)
-
-\S4method{compare}{GATE,CLUSTER}(object1, object2, mweights = NULL,
   method = "compare_default", method.params = NULL)
 }
 \arguments{
