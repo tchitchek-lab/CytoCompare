@@ -220,6 +220,60 @@ import.CLUSTER <- function(file,
 }
 
 
+#' @title Importation of cell cluster profiles from viSNE/ACCENSE results
+#'
+#' @description Imports one or several cell cluster profiles identified by the viSNE/ACCENSE algorithm into a CLUSTER object.
+#'
+#' @importFrom igraph read.graph
+#'
+#' @param file a character indicating the location to a zip or a folder containing the SPADE results
+#' @param exclude a character vector containing the marker names to be excluded in the import procedure
+#' @param trans a character specifying the name of a transformation function to apply on the marker expression intensities. Possible functions are "arcsinh" for arc sin hyperbolic transformation (default), "log" for logarithmic transformation, or "none" for no transformation
+#' @param trans.para a named list containing parameters for the transformation. Please refer to the details section for more details
+#' @param trans.exclude a character vector containing the marker names for which no transformation must be applied on
+#' @param bin.width a numeric value indicating the width of the bins for the marker expression densities computations
+#'
+#' @return a S4 object of class CLUSTER
+#'
+#' @export
+import.VISNE_ACCENSE <- function(file,
+                         exclude            = NULL,
+						 trans              = "arcsinh",
+						 trans.para         = switch(trans,
+											"arcsinh" = list(arcsinh.scale=5),
+											"log"     = list(log.shift="auto",log.base=10),
+											"none"    = NULL),
+						 trans.exclude      = "population",
+                         bin.width          = 0.05){
+    
+    message(paste0("Importing ",file))
+    
+    if(!file.exists(file))
+        stop(paste0("Error in import.viSNE: ",file," does not exist"))
+        
+    data <- utils::read.table(file,header=TRUE,sep=",",stringsAsFactors=FALSE,check.names=FALSE)
+    
+    if(!is.null(exclude)){
+        data <- exclude.markers(data,exclude)
+    }
+	
+	data    <- exclude.markers(data,c("file","SNEx","SNEy"))
+	markers <- colnames(data)[!(colnames(data) %in% trans.exclude)]
+        
+	for(marker in markers){
+		data[,marker] <- arcsinh(data[,marker],trans.para$arcsinh.scale)
+	}  
+	
+	data <- data[,grep("cluster",colnames(data),invert=TRUE)] 
+			
+	data           <- as.matrix(data)
+	cluster        <- as.CLUSTER(object=data,cluster="population",bin.width=bin.width)
+    
+	return(cluster)
+	
+}
+
+
 #' @title Importation of cell cluster profiles from SPADE results
 #'
 #' @description Imports one or several cell cluster profiles identified by the SPADE algorithm into a CLUSTER object.
