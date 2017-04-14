@@ -186,7 +186,7 @@ An import of a viSNE/ACCENSE results can be done using the following command:
 
 ```r
 # imports viSNE/ACCENSE results containing several cell clusters 
-#imported.visne <- import.VISNE_ACCENSE('./CELL.viSNE/Marrow1_01_Basal1_Singlets_viSNE.fcs')
+imported.visne <- import.VISNE_ACCENSE('./CLUSTER.viSNE/accense_output.csv')
 ```
 
 Some parameters can be specified to apply numeric transformations on the marker expression values, or to exclude some markers in the import or transformation procedures:
@@ -212,7 +212,68 @@ The available transformation parameters are (`trans.para` parameter):
 A summary of the `CLUSTER` object, imported by the `import.VISNE_ACCENSE()` function, can be done using the following command:
 
 ```r
-#print(imported.visne)
+print(imported.visne)
+```
+
+```
+## Object class: CLUSTER
+## Object name: cell_cluster
+## Number of clusters profiles: 6
+## Markers: 
+## Time
+## Cell Length
+## 191-DNA
+## 193-DNA
+## 103-Viability
+## 115-CD45
+## 110-CD3
+## 111-CD3
+## 112-CD3
+## 114-CD3
+## 139-CD45RA
+## 141-pPLCgamma2
+## 142-CD19
+## 144-CD11b
+## *145-CD4
+## *146-CD8
+## *148-CD34
+## *150-pSTAT5
+## *147-CD20
+## *152-Ki67
+## *154-pSHP2
+## 151-pERK1/2
+## 153-pMAPKAPK2
+## 156-pZAP70/Syk
+## 158-CD33
+## 160-CD123
+## 159-pSTAT3
+## 164-pSLP-76
+## 165-pNFkB
+## 166-IkBalpha
+## 167-CD38
+## 168-pH3
+## 170-CD90
+## 169-pP38
+## 171-pBtk/Itk
+## 172-pS6
+## 174-pSrcFK
+## 176-pCREB
+## 175-pCrkL
+## 110_114-CD3
+## EventNum
+## density
+## Number of markers: 42
+## Clustering markers: 
+## none
+## Number of clustering markers: 0
+## Density bin width: 0.05
+## Cluster profile names and number of associated cells:
+##  1: 617 cells
+##  2: 752 cells
+##  3: 456 cells
+##  4: 573 cells
+##  5: 373 cells
+## and 1 more...
 ```
 
 
