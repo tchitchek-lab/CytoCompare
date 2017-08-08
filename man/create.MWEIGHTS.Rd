@@ -22,4 +22,3 @@ weights        <- rep(1,length(markers))\cr
 mweights       <- MWEIGHTS(markers=markers,weights=weights)\cr\cr
 The weight of each marker is set to 1 but can be changed afterwards using the function set.
 }
-

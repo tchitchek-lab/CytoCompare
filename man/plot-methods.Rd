@@ -3,10 +3,10 @@
 \docType{methods}
 \name{plot}
 \alias{plot}
-\alias{plot,CLUSTER,CLUSTER-method}
 \alias{plot,CLUSTER,missing-method}
-\alias{plot,DENSITY,missing-method}
+\alias{plot,CLUSTER,CLUSTER-method}
 \alias{plot,MWEIGHTS,missing-method}
+\alias{plot,DENSITY,missing-method}
 \alias{plot,RES,missing-method}
 \title{Plot for all S4 CytoCompare objects}
 \usage{
@@ -59,4 +59,3 @@ If several profiles are present in the CELL, CLUSTER, GATE objects, all profiles
 
 Comparison results contained in RES object can also be ploted using this function. In such representation, each bar corresponds to a marker with a height proportional to the marker distance or inclusion assessment, and where the bars are colored if they model a success.
 }
-

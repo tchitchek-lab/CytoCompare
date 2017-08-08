@@ -8,11 +8,11 @@
 \alias{c,RES-method}
 \title{Combination of CytoCompare objects}
 \usage{
-\S4method{c}{CELL}(x, ..., recursive = FALSE)
+\S4method{c}{CELL}(x, ...)
 
-\S4method{c}{CLUSTER}(x, ..., recursive = FALSE)
+\S4method{c}{CLUSTER}(x, ...)
 
-\S4method{c}{RES}(x, ..., recursive = FALSE)
+\S4method{c}{RES}(x, ...)
 }
 \arguments{
 \item{x}{a first CELL, CLUSTER, GATE or RES object}
@@ -34,4 +34,3 @@ This function is especially useful when combining comparison results from differ
 
 This function is also especially useful when combining cell profiles obtained from different FCS files into one single CELL object.
 }
-

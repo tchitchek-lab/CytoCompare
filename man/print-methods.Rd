@@ -4,9 +4,9 @@
 \name{print}
 \alias{print}
 \alias{print,CLUSTER-method}
-\alias{print,DENSITY-method}
-\alias{print,MWEIGHTS-method}
 \alias{print,RES-method}
+\alias{print,MWEIGHTS-method}
+\alias{print,DENSITY-method}
 \title{Textual preview for all S4 CytoCompare objects}
 \usage{
 \S4method{print}{CLUSTER}(x)
@@ -26,4 +26,3 @@ none
 \description{
 Prints a preview for a CELL, CLUSTER, GATE, RES, MWEIGHTS or DENSITY object.
 }
-

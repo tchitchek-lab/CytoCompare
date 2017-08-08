@@ -4,9 +4,9 @@
 \name{show}
 \alias{show}
 \alias{show,CLUSTER-method}
-\alias{show,DENSITY-method}
-\alias{show,MWEIGHTS-method}
 \alias{show,RES-method}
+\alias{show,MWEIGHTS-method}
+\alias{show,DENSITY-method}
 \title{Textual preview for all S4 CytoCompare objects}
 \usage{
 \S4method{show}{CLUSTER}(object)
@@ -26,4 +26,3 @@ none
 \description{
 Shows a preview for a CELL, CLUSTER, GATE, DENSITY, MWEIGHTS or RES object.
 }
-

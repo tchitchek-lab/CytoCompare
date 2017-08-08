@@ -20,4 +20,3 @@ Provides the cumulative distribution function (CDF) of a DENSITY object at speci
 \details{
 This function is used internally when comparing the marker expression densities of cluster profiles with the default comparison approach. This function can also be used by users willing to define their own statistical functions when comparing cell, cell cluster or gate profiles.
 }
-

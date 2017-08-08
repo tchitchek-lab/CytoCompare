@@ -37,4 +37,3 @@ The 'cluster' parameter is especially useful when importing FCS files containing
 
 In the context of a numeric matrix coercion, the matrix must have its column names corresponding to the cell markers.
 }
-

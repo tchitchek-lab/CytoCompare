@@ -494,7 +494,6 @@ plot(bm_example.clusters[1],bm_example.clusters[2])
 <img src="README.figures/cluster_cluster_plot-1.png" style="display: block; margin: auto;" />
 
 
-
 # <a name="object_comparison"></a> 6. Comparisons of cytometry cell clusters 
 
 The phenotypes of cell cluster contained in `CLUSTER` objects can be compared using the `compare()` function. 
@@ -759,8 +758,8 @@ A combination of two or more `RES` objects can be done using the following comma
 
 ```r
 # combines a set of RES objects into a single RES object
-res.clusters <- c(res.clusters_b.small_subset[1],res.clusters_b.small_subset[2])
-print(res.clusters)
+res.clusters_c <- c(res.clusters_b.small_subset[1],res.clusters_b.small_subset[2])
+print(res.clusters_c)
 ```
 
 ```
@@ -878,33 +877,6 @@ res.graph(res.clusters,filename="graph_clusters.html")
 ```
 
 ![](./README.figures/graph_clusters.png)
- 
-
-
-```r
-# generates a circular graph representation based a more complex example
-random.cell.b    <- sample(bm_example.cells.b@profiles.nb,10)
-random.cell.mono <- sample(bm_example.cells.mono@profiles.nb,10)
-profiles <- list(bm_example.clusters.b,
-                 bm_example.gates.b, 
-                 bm_example.cells.b[random.cell.b],
-                 bm_example.cells.mono[random.cell.mono],
-                 bm_example.gates.mono,
-                 bm_example.clusters.mono, 
-                 bm_example.clusters.tCD4naive,
-                 bm_example.clusters.tCD4mem,
-                 bm_example.clusters.tCD8naive,
-                 bm_example.clusters.tCD8mem)
-res_graph <- RES()
-for(i in 1:(length(profiles))){
-  for(j in i:length(profiles)){
-    res_graph <- c(res_graph,compare(profiles[[i]],profiles[[j]],mweights=bm_example.mweights))
-  }
-}
-res.graph(res_graph,filename="graph_full.html")
-```
-
-![](./README.figures/graph_full.png)
  
 
 

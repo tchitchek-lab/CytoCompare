@@ -28,4 +28,3 @@ a S4 object of class CLUSTER
 \description{
 Imports one or several cell cluster profiles identified by the viSNE/ACCENSE algorithm into a CLUSTER object.
 }
-

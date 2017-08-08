@@ -22,4 +22,3 @@ Identifies the common markers between two cytometry objects (CELL, CLUSTER or GA
 \details{
 The weight of each marker is set to 1 but can be changed afterwards using the function set.
 }
-

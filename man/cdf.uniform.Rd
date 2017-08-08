@@ -20,4 +20,3 @@ Provides the cumulative distribution function (CDF) of a uniform distribution at
 \details{
 This function is used internally when comparing the marker expression densities of gate profiles with the default comparison approach. This function can also be used by users willing to define their own statistical functions for comparing cell, cell cluster or gate profiles.
 }
-

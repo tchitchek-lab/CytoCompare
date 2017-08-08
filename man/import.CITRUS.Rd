@@ -29,4 +29,3 @@ Imports one or several cell cluster profiles identified by the Citrus algorithm 
 \details{
 Citrus is an algorithm that clusters cells using a hierarchical clustering procedure (similarly to SPADE) and then identifies the cell clusters that are significantly associated with different biological condition phenotypes (PMID:24979804).
 }
-

@@ -3,8 +3,8 @@
 \docType{methods}
 \name{compare}
 \alias{compare}
-\alias{compare,CLUSTER,CLUSTER-method}
 \alias{compare,CLUSTER,missing-method}
+\alias{compare,CLUSTER,CLUSTER-method}
 \title{Compare two cytometry profiles.}
 \usage{
 compare(object1, object2, ...)
@@ -69,4 +69,3 @@ In the case of comparisons between a cell cluster profile and gate profile, a ce
 
 Importantly, in the case of comparisons involving CLUSTER profiles, Hartigan's dip tests and InterQuartile Ranges (IQR) can be computed in order to estimate if the marker expression densities are unimodales with low spreads. The Hartigan's dip test p-value threshold and IQR threshold can be both parametrized using the 'dip.pvalue' and 'IQR.th' parameters. If a marker density do not respect these constraints, the distance is set to 1.
 }
-

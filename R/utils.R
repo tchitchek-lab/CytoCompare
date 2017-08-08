@@ -294,7 +294,7 @@ create.MWEIGHTS <- function(markers){
 #' @export
 load.examples <- function(del.file=FALSE){
     rdata        <- "./CytoCompareExample.rdata"
-	expected.md5 <- "77a26520a7b78f7baa219d69c5f9e9ff"
+	expected.md5 <- "496d2451cb781dd1ecf7b7dfd245cec6"
 
     if(!file.exists(rdata) || tools::md5sum(rdata)!=expected.md5){
         if(del.file){

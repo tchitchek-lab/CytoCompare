@@ -27,4 +27,3 @@ Creates a Multidimensional scaling (MDS) representation of the comparison result
 \details{
 The representation is provided as a HTML file via a Scalable Vector Graphics (SVG) element created with the D3.js library.
 }
-

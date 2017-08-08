@@ -14,7 +14,7 @@
 #' @return none
 #'
 #' @export
-res.graph <- function(res,filename="res.html",svgsize=1000,pvalue.th=0.2){
+res.graph <- function(res,filename="res.html",svgsize=1000,pvalue.th=0.05){
     
     clean.res_names <- function(x){
         x.splited <- unlist(strsplit(x,split=":"))

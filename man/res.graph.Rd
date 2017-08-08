@@ -4,7 +4,7 @@
 \alias{res.graph}
 \title{Circular graph representation of a RES object}
 \usage{
-res.graph(res, filename = "res.html", svgsize = 1000, pvalue.th = 0.2)
+res.graph(res, filename = "res.html", svgsize = 1000, pvalue.th = 0.05)
 }
 \arguments{
 \item{res}{a RES object}
@@ -24,4 +24,3 @@ Creates a circular graph representation of the comparison results. In such graph
 \details{
 The representation is provided as an interactive HTML file via a Scalable Vector Graphics (SVG) element created with the D3.js library. Users can interact with the representation by modifying the link tensions and the p-value cutoff for the significant similarities or inclusions.
 }
-

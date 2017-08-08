@@ -26,4 +26,3 @@ The first column must contain the cell cluster names and the first row must cont
 
 It is to note that `CLUSTER` objects constructed via the `import.CLUSTER()` function do not contain the densities of expression markers (please refer to the documentation of the `compare()` function).
 }
-

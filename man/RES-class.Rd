@@ -2,8 +2,8 @@
 % Please edit documentation in R/classes.R
 \docType{class}
 \name{RES-class}
-\alias{RES}
 \alias{RES-class}
+\alias{RES}
 \title{RES class definition}
 \description{
 RES is a S4 object containing one or several comparison results.

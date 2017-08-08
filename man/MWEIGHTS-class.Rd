@@ -2,8 +2,8 @@
 % Please edit documentation in R/classes.R
 \docType{class}
 \name{MWEIGHTS-class}
-\alias{MWEIGHTS}
 \alias{MWEIGHTS-class}
+\alias{MWEIGHTS}
 \title{MWEIGHTS class definition}
 \description{
 MWEIGHTS is a S4 object containing the marker weights to use in the comparison computations.

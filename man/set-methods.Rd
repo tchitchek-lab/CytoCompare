@@ -2,10 +2,10 @@
 % Please edit documentation in R/classes.R
 \docType{methods}
 \name{set}
+\alias{set}
+\alias{[<-,MWEIGHTS,numeric,missing,numeric-method}
 \alias{[<-,MWEIGHTS,character,missing,numeric-method}
 \alias{[<-,MWEIGHTS,logical,missing,numeric-method}
-\alias{[<-,MWEIGHTS,numeric,missing,numeric-method}
-\alias{set}
 \title{Change marker weights in a MWEIGHTS object}
 \usage{
 \S4method{[}{MWEIGHTS,numeric,missing,numeric}(x, i) <- value
@@ -30,4 +30,3 @@ Sets the weights of the markers in a MWEIGHTS object.
 \details{
 Marker weights can be set based on their indexes or names in the MWEIGHTS object.
 }
-

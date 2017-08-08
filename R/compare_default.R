@@ -56,7 +56,7 @@ compare_default <- function(profile1.type,profile2.type,
 compare_default_CLUSTER_CLUSTER <- function(profile1.mean,profile1.sd,profile1.density,profile1.nbcells,
                                             profile2.mean,profile2.sd,profile2.density,profile2.nbcells,
                                             weights,
-                                            D.th=0.35,P=0.70,
+                                            D.th=0.25,P=1,
                                             nbcells.th=50,
                                             dip.pvalue=NULL,
                                             IQR.th    =NULL){
@@ -142,11 +142,11 @@ compare_default_CLUSTER_CLUSTER <- function(profile1.mean,profile1.sd,profile1.d
 # @param P a numeric value specifying the expected success probability (set at 0.75 by default)
 #
 # @return a numeric providing the p-value of the weighted binomial test
-aggreg.binom <- function(successes,weights,P=0.75){
+aggreg.binom <- function(successes,weights,P=1){
     successes <- successes[!is.na(successes)]
     weights   <- weights[!is.na(successes)]
-    pvalue    <- stats::pbinom(sum(successes*weights), sum(weights), P, lower.tail = FALSE)
-    return(pvalue)
+    pvalue    <- stats::binom.test(sum(successes*weights),sum(weights), P,alternative="less")$p.value
+	return(pvalue)
 }
 
 

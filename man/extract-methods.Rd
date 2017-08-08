@@ -2,10 +2,10 @@
 % Please edit documentation in R/classes.R
 \docType{methods}
 \name{extract}
+\alias{extract}
 \alias{[,CLUSTER,ANY-method}
 \alias{[,MWEIGHTS,ANY-method}
 \alias{[,RES,ANY-method}
-\alias{extract}
 \title{Extraction of subsets of data from CytoCompare objects}
 \usage{
 \S4method{[}{CLUSTER,ANY}(x, i, j)
@@ -34,4 +34,3 @@ For MWEIGHTS objects, the parameter 'i' represents a vector of markers to extrac
 
 For RES objects, the parameter 'i' represents a vector of comparisons to extract.
 }
-

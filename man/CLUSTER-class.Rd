@@ -2,8 +2,8 @@
 % Please edit documentation in R/classes.R
 \docType{class}
 \name{CLUSTER-class}
-\alias{CLUSTER}
 \alias{CLUSTER-class}
+\alias{CLUSTER}
 \title{CLUSTER class definition}
 \description{
 CLUSTER is a S4 object containing one or several cell cluster profiles.

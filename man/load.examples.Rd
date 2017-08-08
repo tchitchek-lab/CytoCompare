@@ -44,4 +44,3 @@ Once downloaded, the following objects will be available:\cr
 \details{
 This function downloads a CytoCompareExample.rdata file containing the different CytoCompare objects (from a public ftp server "ftp://ftp.cytocompare.org/public/rdata/").
 }
-

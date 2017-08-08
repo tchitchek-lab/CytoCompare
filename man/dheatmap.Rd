@@ -4,12 +4,17 @@
 \alias{dheatmap}
 \title{Density heatmap of the marker expression}
 \usage{
-dheatmap(cluster, density.max = NULL, return.gg = FALSE)
+dheatmap(cluster, density.max = NULL, barwidth = 5,
+  scale_densities = TRUE, return.gg = FALSE)
 }
 \arguments{
 \item{cluster}{a CLUSTER object containing one or several cell cluster profiles}
 
 \item{density.max}{a numeric specifying the maximal density gradient value in the heatmap}
+
+\item{barwidth}{a numeric specifying the width of each bar of the representation}
+
+\item{scale_densities}{a boolean specifying if the gradient scale of each marker must be adapted}
 
 \item{return.gg}{a logical indicating if the function should return a list of ggplot objects}
 }
@@ -22,4 +27,3 @@ Generates a marker density heatmap for the cell cluster profiles stored in a `CL
 \details{
 In such representation, each bar corresponds to a marker and the color gradient is proportional to the marker expression density.
 }
-

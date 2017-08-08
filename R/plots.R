@@ -74,7 +74,8 @@ setMethod("plot",c("CLUSTER","missing"),
                         panel.background=ggplot2::element_blank(),
                         panel.grid.major.y=ggplot2::element_line(colour="gray75"),
                         panel.grid.major.x=ggplot2::element_line(colour="gray75"),
-                        panel.grid.minor.x=ggplot2::element_line(colour="gray90"))
+                        panel.grid.minor.x=ggplot2::element_line(colour="gray90"),
+						plot.title = ggplot2::element_text(hjust = 0.5))
             }
         }
         
@@ -127,12 +128,12 @@ setMethod("plot",c("CLUSTER","CLUSTER"),
                         ggplot2::scale_y_continuous(limits=c(floor(ymin),ceiling(ymax)),breaks=seq(floor(ymin),ceiling(ymax),by=1)) +
                         ggplot2::guides(color=ggplot2::guide_legend(nrow=2,byrow=TRUE)) +
                         ggplot2::theme(axis.text.x = ggplot2::element_text(angle=290, hjust=0, vjust=1),
-                            plot.title=ggplot2::element_text(hjust=0.5),
                             legend.position="bottom",
                             panel.background=ggplot2::element_blank(),
                             panel.grid.major.y=ggplot2::element_line(colour="gray75"),
                             panel.grid.major.x=ggplot2::element_line(colour="gray75"),
-                            panel.grid.minor.x=ggplot2::element_line(colour="gray90"))
+                            panel.grid.minor.x=ggplot2::element_line(colour="gray90"),
+							plot.title = ggplot2::element_text(hjust = 0.5))
                     plots.count <- plots.count+1
                 }
             }
@@ -165,7 +166,8 @@ setMethod("plot",c("MWEIGHTS","missing"),
                 panel.background=ggplot2::element_blank(),
                 panel.grid.major.y=ggplot2::element_line(colour="gray75"),
                 panel.grid.major.x=ggplot2::element_line(colour="gray75"),
-                panel.grid.minor.x=ggplot2::element_line(colour="gray90"))
+                panel.grid.minor.x=ggplot2::element_line(colour="gray90"),
+				plot.title = ggplot2::element_text(hjust = 0.5))
                 
         if(return.gg)
             return(plot)
@@ -199,7 +201,8 @@ setMethod("plot",c("DENSITY","missing"),
                 panel.background=ggplot2::element_blank(),
                 panel.grid.major.y=ggplot2::element_line(colour="gray75"),
                 panel.grid.major.x=ggplot2::element_line(colour="gray75"),
-                panel.grid.minor.x=ggplot2::element_line(colour="gray90"))
+                panel.grid.minor.x=ggplot2::element_line(colour="gray90"),
+				plot.title = ggplot2::element_text(hjust = 0.5))
         
         if(return.gg)
             return(plot)
@@ -246,7 +249,8 @@ setMethod("plot",c("RES","missing"),
 													   panel.background=ggplot2::element_blank(),
 													   panel.grid.major.y=ggplot2::element_line(colour="gray75"),
 													   panel.grid.major.x=ggplot2::element_line(colour="gray75"),
-													   panel.grid.minor.x=ggplot2::element_line(colour="gray90"))
+													   panel.grid.minor.x=ggplot2::element_line(colour="gray90"),
+													   plot.title = ggplot2::element_text(hjust = 0.5))
 			}else if (object1@comparisons[i,"type"] == "inclusion"){
 				plots[[plots.count]] <- ggplot2::ggplot(frame,ggplot2::aes_string(x="markers",y="success",fill="success")) +
 										ggplot2::ggtitle(paste(object1[i]@comparisons[1,]$profile1," vs. ",object1[i]@comparisons[1,"profile2"],"\n inclusion p-value = ",format(object1[i]@comparisons[1,"pvalue"],nsmall=4,digit=4))) +
@@ -262,7 +266,8 @@ setMethod("plot",c("RES","missing"),
 													   axis.ticks.y      =ggplot2::element_blank(),
 													   panel.grid.major.y=ggplot2::element_blank(),
 													   panel.grid.major.x=ggplot2::element_blank(),
-													   panel.grid.minor.x=ggplot2::element_blank())
+													   panel.grid.minor.x=ggplot2::element_blank(),
+													   plot.title = ggplot2::element_text(hjust = 0.5))
 				}
 
             plots.count <- plots.count+1
@@ -312,7 +317,8 @@ ggplot.SPADEtree <- function(profile){
             axis.text=ggplot2::element_blank(),
             axis.title=ggplot2::element_blank(),
             axis.ticks=ggplot2::element_blank(),
-            legend.position="none")
+            legend.position="none",
+			plot.title = ggplot2::element_text(hjust = 0.5))
             
     return(plot)
 }
@@ -326,12 +332,14 @@ ggplot.SPADEtree <- function(profile){
 #'
 #' @param cluster a CLUSTER object containing one or several cell cluster profiles
 #' @param density.max a numeric specifying the maximal density gradient value in the heatmap   
+#' @param barwidth a numeric specifying the width of each bar of the representation 
+#' @param scale_densities a boolean specifying if the gradient scale of each marker must be adapted    
 #' @param return.gg a logical indicating if the function should return a list of ggplot objects
 #'
 #' @return if return.gg is TRUE, the function returns a list of ggplot objects
 #'
 #' @export
-dheatmap <- function(cluster, density.max = NULL, return.gg=FALSE){
+dheatmap <- function(cluster, density.max = NULL, barwidth=5, scale_densities=TRUE, return.gg=FALSE){
     stopifnot(density.max>0)
     plots <- list()
     markers <- cluster@markers
@@ -349,23 +357,57 @@ dheatmap <- function(cluster, density.max = NULL, return.gg=FALSE){
                     bin.id.max=x.lab[-1],
                     density=c(rev(temp.den@values.neg),temp.den@values.pos)))
         }
-		max.value <- max(den.value$density,na.rm=TRUE)*0.65
+		if(scale_densities==TRUE){		
+			den.value$markers <- as.vector(den.value$markers)
+			marker_max        <- c()
+			den.value_scaled  <- c()
+			for(marker in unique(den.value$markers)){
+				tmp <- den.value[den.value$markers==marker,]
+				marker_max  <- c(marker_max,max(tmp$density))
+				tmp$density <- tmp$density*1/max(tmp$density)
+				den.value_scaled <- rbind(den.value_scaled,tmp)
+			}
+			den.value <- den.value_scaled
+		}
+		
+		den.value$markers <- factor(den.value$markers,levels=unique(den.value$markers))
+		
+		max.value <- max(den.value$density,na.rm=TRUE)
+		
 		if(is.null(density.max)){
 		    density.max <- max.value
 		}
-        density.breaks <- round(c(0,max.value,density.max),2)
-        plots[[i]] <- ggplot2::ggplot(den.value)+
-            ggplot2::ggtitle(paste0("CLUSTER:",cluster@name,":",cluster@profiles[i]))+
-            ggplot2::geom_linerange(ggplot2::aes_string(x="markers",ymax="bin.id.max",ymin="bin.id.min",color="density"),size=5)+
-            ggplot2::scale_color_gradientn(colours=c("black","darkgoldenrod3"),values=c(0,density.max/max.value),limits=c(0,max.value),na.value="darkgoldenrod3",breaks=density.breaks) +
-            ggplot2::xlab("markers")+
-            ggplot2::ylab("marker expression") +
-            ggplot2::theme(axis.text.x = ggplot2::element_text(angle=290, hjust=0, vjust=1),
-                legend.position="bottom",
-                panel.background=ggplot2::element_blank(),
-                panel.grid.major.y=ggplot2::element_line(colour="gray75"),
-                panel.grid.major.x=ggplot2::element_line(colour="gray75"),
-                panel.grid.minor.x=ggplot2::element_line(colour="gray90"))
+		density.breaks <- round(c(0,max.value,density.max),2)
+		
+		if(scale_densities==TRUE){
+			plots[[i]] <- ggplot2::ggplot()+
+				ggplot2::ggtitle(paste0("CLUSTER:",cluster@name,":",cluster@profiles[i]))+
+				ggplot2::geom_linerange(data=den.value,ggplot2::aes_string(x="markers",ymax="bin.id.max",ymin="bin.id.min",color="density"),size=barwidth)+
+				ggplot2::scale_color_gradientn(colours=c("black","darkgoldenrod3"),values=c(0,density.max/max.value),limits=c(0,max.value),na.value="darkgoldenrod3",breaks=density.breaks, labels = c("0","max","max")) +
+				ggplot2::xlab("markers")+
+				ggplot2::ylab("marker expression") +
+				ggplot2::theme(axis.text.x = ggplot2::element_text(angle=290, hjust=0, vjust=1),
+					legend.position="bottom",
+					panel.background=ggplot2::element_blank(),
+					panel.grid.major.y=ggplot2::element_line(colour="gray75"),
+					panel.grid.major.x=ggplot2::element_line(colour="gray75"),
+					panel.grid.minor.x=ggplot2::element_line(colour="gray90"),
+					plot.title = ggplot2::element_text(hjust = 0.5))
+		}else{
+			plots[[i]] <- ggplot2::ggplot()+
+				ggplot2::ggtitle(paste0("CLUSTER:",cluster@name,":",cluster@profiles[i]))+
+				ggplot2::geom_linerange(data=den.value,ggplot2::aes_string(x="markers",ymax="bin.id.max",ymin="bin.id.min",color="density"),size=barwidth)+
+				ggplot2::scale_color_gradientn(colours=c("black","darkgoldenrod3"),values=c(0,density.max/max.value),limits=c(0,max.value),na.value="darkgoldenrod3",breaks=density.breaks) +
+				ggplot2::xlab("markers")+
+				ggplot2::ylab("marker expression") +
+				ggplot2::theme(axis.text.x = ggplot2::element_text(angle=290, hjust=0, vjust=1),
+					legend.position="bottom",
+					panel.background=ggplot2::element_blank(),
+					panel.grid.major.y=ggplot2::element_line(colour="gray75"),
+					panel.grid.major.x=ggplot2::element_line(colour="gray75"),
+					panel.grid.minor.x=ggplot2::element_line(colour="gray90"),
+					plot.title = ggplot2::element_text(hjust = 0.5))
+		}
     }
     
     if(return.gg)

@@ -44,4 +44,3 @@ SPADE is a popular visualization and analysis algorithm that identifies clusters
 
 The 'rescale' parameter can be used to rescale the marker expression intensities from 0 to 1 (with respect to the distribution proportion). The rescaling can be performed based on minimal and maximal expression values or based on specified quantiles using the 'rescale.quantiles' parameter. This strategy is especialy usefull when comparing cell or cell cluster profiles obtained from different experimental/staining conditions.
 }
-

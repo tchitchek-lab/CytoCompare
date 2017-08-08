@@ -2,8 +2,8 @@
 % Please edit documentation in R/classes.R
 \docType{class}
 \name{DENSITY-class}
-\alias{DENSITY}
 \alias{DENSITY-class}
+\alias{DENSITY}
 \title{DENSITY class definition}
 \description{
 DENSITY is a S4 object used to stores a marker expression density.

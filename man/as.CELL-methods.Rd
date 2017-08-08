@@ -26,4 +26,3 @@ This function transforms a numeric matrix into one or several cell profiles.
 \details{
 The matrix must have its column names corresponding to the cell markers.
 }
-
