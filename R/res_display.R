@@ -163,7 +163,7 @@ res.mds <- function(res,filename="res.html",cols=NULL,sizes=NULL,svgsize=1000){
     cat(iconv(html,to="UTF-8"),file = filename)
 }
 
-# title Internal - Multidimensional scaling representation of the comparisons results
+# @title Internal - Multidimensional scaling representation of the comparisons results
 #
 # @description Computes a Multidimensional scaling (MDS) representation of the comparison results. In such MDS representation each cytometry profile is represented by a dot in a two-dimensional space and the distances between the nodes are proportional to the distance between the profiles. The Kruskal Stress  quantifies the quality of the representation as the percentage of information lost in the dimensionality reduction process.
 #
@@ -224,3 +224,38 @@ create.mds <- function(res,cols=NULL,sizes=NULL){
     return(list(profiles = profiles, positions = mds$point, stress = mds$stress, nodes_cols=unname(cols), nodes_sizes=unname(sizes)))
 }
 
+
+#' @title Dendrogram representation of the comparisons results
+#'
+#' @description CytoCompare can also represent these phenotype distances between the cell clusters using dendrograms. In such dendrogram, each leaf corresponds to a cell cluster, and the branching diagram represents the relationships of similarity among the cell clusters.
+#'
+#' @details Hierarchical clustering can be constructed based on different linkage methods, such as the complete linkage represented here.
+#'
+#' @param res a RES object
+#' @param method a character of the agglomeration method to be used. This should be (an unambiguous abbreviation of) one of "ward.D", "ward.D2", "single", "complete", "average" (= UPGMA), "mcquitty" (= WPGMA), "median" (= WPGMC) or "centroid" (= UPGMC). 
+#'
+#' @return a ggplot plot object represnetating a dendrogram
+#' 
+#' @import reshape2 
+#' @import ggdendro 
+res.dendro <- function(res, method = "complete"){
+
+	dist           <- res@comparisons[,c("profile1","profile2","measure")]
+	dist           <- reshape2::dcast(dist, profile1~profile2)
+	rownames(dist) <- paste0("CELL CLUSTER ",rownames(dist))
+	colnames(dist) <- paste0("CELL CLUSTER ",colnames(dist))
+	dist           <- stats::as.dist(dist(dist))
+	hclust         <- stats::hclust(dist, method=method)
+	
+	plot <- ggdendro::ggdendrogram(hclust, rotate = FALSE, size = 4, theme_dendro = FALSE, color = "tomato") +
+		ggplot2::theme_bw() + 
+		ggplot2::xlab("") +
+		ggplot2::ylab("") +
+		ggplot2::theme(panel.border = ggplot2::element_blank(), 
+			  panel.grid.major      = ggplot2::element_blank(),
+			  panel.grid.minor      = ggplot2::element_blank(), 
+			  axis.line.y           = ggplot2::element_line(colour = "black"),
+			  axis.text.x           = ggplot2::element_text(angle = 90, vjust = 0.5, hjust = 0))
+			  
+	return(plot)
+}

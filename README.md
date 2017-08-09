@@ -6,12 +6,12 @@ Cytometry is an experimental technique used to measure molecules expressed by ce
 Recently, several technological improvements have made possible to greatly increase the number of cell markers that can be simultaneously measured.
 Many computational methods have been proposed to identify clusters of cells having similar phenotypes.
 
-Nevertheless, no computational method exists to compare the phenotypes of cell clusters identified by different clustering approaches.
+Nevertheless, very few computational method exists to compare the phenotypes of cell clusters identified by different clustering approaches.
 These phenotypic comparisons are necessary to choose the appropriate clustering methods and settings.
 Because of this lack of computational tools, comparisons of cell cluster phenotypes are often performed manually, a highly biased and time-consuming process.
 
 CytoCompare is an R package that performs comparisons between the phenotypes of cell clusters with the purpose of identifying similar ones.
-For each comparison of two cell clusters, CytoCompare provides a similarity measure as well as a p-value asserting the statistical significance of the similarity.
+For each comparison of two cell clusters, CytoCompare provides a distance measure as well as a p-value asserting the statistical significance of the phenotypical difference
 CytoCompare can generate parallel coordinates, parallel heatmaps, multidimensional scaling or circular graph representations to visualize easily cell cluster phenotypes and the comparison results.
 CytoCompare can import clustering results from various algorithms including SPADE, viSNE/ACCENSE, and Citrus, the most current widely used algorithms.
 
@@ -41,8 +41,8 @@ CytoCompare can import clustering results from various algorithms including SPAD
         1. [Circular graph visualization](#res_d3js_circular)
         2. [MDS visualization](#res_d3js_mds)
 8. [Miscellaneous functions](#miscellaneous)
-    1. [Biplot representations of cell profiles](#biplot)
-    2. [Density heatmap representations of cell cluster profiles](#dheatmap)
+    1. [Density heatmap representations of cell cluster profiles](#dheatmap)
+    2. [Dendrogram representations of comparison results](#dendrogram)
 9. [Template of the compare() function](#compare_template)
 10. [Structures of the CytoCompare objects](#object_structure)
     1. [Overview of CytoCompare objects](#object_structure_uml)
@@ -86,7 +86,7 @@ On the other hand, automatic gating methods (such as [viSNE](https://www.c2b2.co
 
 Once identified cell populations, also named cell clusters, need to be deeper characterized or associated with known phenotypes for further investigations. 
 
-While all these tools have been developed, no computational strategy currently exists to compare the phenotypes of identified cell clusters.
+While all these tools have been developed, only few computational strategy currently exists to compare the phenotypes of identified cell clusters.
 These phenotypic comparisons are crucial to explore cell clustering results obtained from different computational approaches and to recognize cell populations with common or marginal phenotypes.
 Thereby, such comparisons are often performed manually through multiple comparisons of marker expression densities, a highly biased and time-consuming process.
 Indeed, comparisons of cell cluster phenotypes based on the mean or median of marker expressions can be biased as they do not consider all the characteristics of marker expression distributions.
@@ -101,9 +101,9 @@ Cytometry experts can face at least five different situations that can necessita
 * The fourth situation arises when users aim to organize the identified cell clusters based on their phenotypes. 
 * The fifth situation occurs when comparing the phenotypes of cell populations from different biological studies.
 
-CytoCompare is an R package that performs comparisons between the phenotypes of cell clusters with the purpose of identifying similar ones.
-For each comparison of two cell clusters, CytoCompare provides a similarity measure as well as a p-value asserting the statistical significance of the similarity.
-CytoCompare can generate parallel coordinates, parallel heatmaps, multidimensional scaling or circular graph representations to visualize easily cell cluster phenotypes and the comparison results.
+CytoCompare is an R package that performs comparisons between the phenotypes of cell clusters with the purpose of identifying similar and different ones.
+For each comparison of two cell clusters, CytoCompare provides a distance measure as well as a p-value to assert whether the clusters are phenotypically different or not.
+CytoCompare can generate parallel coordinates, parallel heatmaps, dendrograms, multidimensional scaling or circular graph representations to visualize easily cell cluster phenotypes and the comparison results.
 CytoCompare can import clustering results from various algorithms including viSNE/ACCENSE, SPADE, and Citrus, the most current widely used algorithms.
 
 We designed CytoCompare in a way that it can be easily used by non-bioinformatician experts, but can also be easily customizable by users with more expertise in bioinformatics.
@@ -111,9 +111,10 @@ Through the multiple cell cluster manipulation methods, CytoCompare is also a po
 
 
 # <a name="package_installation"></a> 2. Package installation
-The `ggplot2`, `ggrepel`, `grid`, `igraph`, `MASS`, `RJSONIO`, and `XML` R packages as well as the `flowCore` and `flowUtils` Bioconductor packages are required for running CytoCompare. These packages can be installed using the following commands:
+The `ggdendro`, `ggplot2`, `ggrepel`, `grid`, `igraph`, `MASS`, `RJSONIO`, and `XML` R packages as well as the `flowCore` and `flowUtils` Bioconductor packages are required for running CytoCompare. These packages can be installed using the following commands:
 
 ```r
+install.packages('ggdendro')
 install.packages('ggplot2')
 install.packages('ggrepel')
 install.packages('grid')
@@ -499,20 +500,19 @@ plot(bm_example.clusters[1],bm_example.clusters[2])
 The phenotypes of cell cluster contained in `CLUSTER` objects can be compared using the `compare()` function. 
 Comparison results are stored in a `RES` object (please refer to section 7 for more details). 
 
-For each phenotypic comparison of two cell clusters, a similairty measure is provided as well as a p-value asserting the statistical significance of the similiarity. 
+For each phenotypic comparison of two cell clusters, a distance measure is provided as well as a p-value asserting the statistical significance of the phenotipical difference. 
 
 Comparisons can be performed based on the whole set of common markers between the two profiles, or based on a subset of markers specified by the user. Moreover, markers can be weighted in the comparison procedure, via a `MWEIGHTS` object.
 
-When comparing two cell clusters, CytoCompare first computes a similarity measure for each pair of cell markers (step 1). 
-In our statistical approach, the Kolmogorov-Smirnov distance is used to qualify the similarity between marker distribution densities [22]. 
+When comparing two cell clusters, CytoCompare first computes a distance for each pair of cell markers (step 1). 
+In our statistical approach, the Kolmogorov-Smirnov distance is used to qualify the difference between marker distribution densities [22]. 
 Here, the distance corresponds to the maximal difference between the two cumulative distribution functions. 
 
 ![](./README.figures/CytoCompare-manuscript-Figure1.png)
 
-In our approach, marker similarity distances below a threshold, defined by the user, model a success in a Bernoulli experiment (steps 2).
-The p-value, computed by an exact right-tailed binomial test, asserts if the proportion of marker successes is statistically higher than a proportion of expected marker successes defined by the user.
-Using this p-value, it is then possible to assert whether the two cell clusters have a phenotype statistically similar or not (step 3).
-The marker similarity measures are also aggregated using a weighted mean to obtain one single similarity measure for each comparison of two cell clusters. 
+For each comparison of two cell clusters, CytoCompare aims to quantify the difference between their phenotypes and determine whether they are significantly different or not, based on the density distributions of their marker expressions. To perform this task, a distance measure is computed for each comparison of two cell clusters. Additionally, a p-value is also provided to assert whether these two cell clusters have different phenotype or not. Importantly, within our statistical approach, markers can be weighted. This strategy opens the possibility to give more importance to some of the selected markers. It is to note that the users can easily redefine the way to compute either the distance measures or the associated p-values, and still beneficiate of the analysis features available in CytoCompare.
+
+More precisely, when comparing two cell clusters, CytoCompare first computes a distance for each pair of markers (Figure 1, step 1). This comparison can be performed based on the whole set of cell markers or a restricted set of markers. In our statistical approach, the Kolmogorov-Smirnov distance is used to qualify the difference between marker expressions [24]. Here, this distance corresponds to the maximal difference between the two cumulative distribution functions of marker expressions. This distance is equal to zero if the marker density distributions are identical, and has a maximal value of 1 if the density distributions do not overlap. A p-value, asserting the significance of the phenotype difference, is also calculated by CytoCompare. In our approach, a marker distance below a threshold model a success in a Bernoulli experiment, and marker distance above the threshold model a failure in the Bernoulli experiment (Figure 1, step 2). This distance threshold is set by default to 0.35. The hypothesis tested in our statistical approach is that the two cell clusters have similar phenotypes. The theoretical reference proportion of the null hypothesis is then 1 (i.e. corresponding to a full set of successes in the Bernoulli experiments). Any deviation from 1 corresponds to a difference feature between the cluster phenotypes. The p-value, computed by an exact left-tailed binomial test, asserts if the proportion of marker successes is statistically lower than a proportion defined by the user. This proportion is set by default to 0.70. If the p-value is lower than 0.05, then we can reject the null hypothesis and conclude that the two cell clusters are different (Figure 1, step 3). Markers can be weighted to have a stronger contribution in the computation of the distance measure and p-value. The marker distance measures are also aggregated using a weighted mean to obtain one single distance measure for each comparison of two cell clusters. 
 
 If only one object is provided to the `compare()` function then the comparisons will be performed between all clusters of this object. 
 If two objects are provided to the `compare()` function then the comparisons will be performed between all possible pairs of cluster between these two objects.
@@ -521,8 +521,8 @@ Importantly, users can define their own function to perform the statistical comp
 
 Different parameters can be defined, via the `method.params` named list, to specify the behavior of such kind of comparisons:
 
-* the `D.th` parameter indicates the similarity threshold to use for comparison between two cell clusters (default values is set to 0.30);
-* the `P` parameter indicates the proportion of marker successes to statistically consider the similarity significant (default values is set to 0.75).
+* the `D.th` parameter indicates the distance threshold to use for comparison between two cell clusters (default value is set to 0.35);
+* the `P` parameter indicates the expected proportion of marker successes significant (default value is set to 0.70).
 
 For example, comparisons between different cell clusters can be done using the following commands:
 
@@ -617,11 +617,11 @@ for(i in 1:length(clusters)){
 
 ## <a name="res_structure"></a> 7.1. Structure of comparison results
 The `RES` object is a S4 object containing one or several comparison results. 
-This object mainly stores for each comparison result: the aggregated distance and the marker distances, the associated similarity p-value and the marker similarity successes.
+This object mainly stores for each comparison result: the aggregated distance and the marker distances, the associated p-value and the marker successes.
 
 Different slots are available for a given `RES` object:
 
-* the slot `comparisons` is a data.frame containing for each comparison: the profile names,the similarity distance, the distance threshold used and the associated p-value
+* the slot `comparisons` is a data.frame containing for each comparison: the profile names,the distance, the distance threshold used and the associated p-value
 * the slot `comparisons.nb` is an integer indicating the number of comparisons 
 * the slot `markers` is a character vector containing the marker names used in the comparisons
 * the slot `marker.weights` is a numeric vector containing the weigths associated to each marker involded in the comparisons
@@ -815,7 +815,7 @@ It is to note that the comparisons to combine must be unique.
 
 ## <a name="res_visualization"></a> 7.5. Visualization of single comparison results
 The `plot()` function can be used to plot the `RES` objects, via bar plots.
-In such representation each bar corresponds to a marker with a height proportional to the marker similarity measures, and where the bars are colored if they model a success in the Bernoulli experiment. 
+In such representation each bar corresponds to a marker with a height proportional to the marker distance measures, and where the bars are colored if they model a success in the Bernoulli experiment. 
 Representations are generated using the `ggplot2` library [10] and can be modified by users.
 
 Two `RES` objects, which contains one or several comparison results, can be plotted using the following commands:
@@ -929,7 +929,7 @@ res.mds(res.clusters,"mds_clusters_colors.html",cols=cols)
 
 # <a name="miscellaneous"></a> 8. Miscellaneous functions
 
-# <a name="dheatmap"></a> 8.2. Density heatmap representations of cell cluster profiles
+# <a name="dheatmap"></a> 8.1. Density heatmap representations of cell cluster profiles
 Density heatmap of a `CLUSTER` object can be generated and plotted using the `dheatmap()` function.
 In such representation, each bar corresponds to a marker and the color gradient is proportional to the marker expression density. 
 
@@ -950,6 +950,21 @@ dheatmap(bm_example.clusters[1:3])
 ```
 
 <img src="README.figures/multiple_dheatmap_plot-1.png" style="display: block; margin: auto;" />
+
+
+# <a name="dendrogram"></a> 8.2. Dendrogram representations of comparison results
+In complement to MDS and circular graph representations, CytoCompare can perform hierarchical clusterings of cell cluster phenotypes based on the computed distance measures.
+Hierarchical clustering can be constructed based on different linkage methods, such as the complete linkage represented here.
+
+A dendrogram representation of a `RES` object can be displayed using the following command:
+
+```r
+# plots a dendrogram representation of the phenotypical distance measure
+res.dendro(res.clusters_b)
+```
+
+<img src="README.figures/single_dendro_plot-1.png" style="display: block; margin: auto;" />
+
 
 
 # <a name="compare_template"></a> 9. Template of the compare() function
