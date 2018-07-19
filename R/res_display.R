@@ -10,11 +10,12 @@
 #' @param filename a character specifying a file location where to save the HTML file of the representation
 #' @param pvalue.th a numeric value specifying a p-value cutoff. Only the associations below this specific value will be returned
 #' @param svgsize a numeric value specifying the size of the SVG representation in pixels
+#' @param color_edges a boolean value specifying if edges but be colored
 #'
 #' @return none
 #'
 #' @export
-res.graph <- function(res,filename="res.html",svgsize=1000,pvalue.th=0.05){
+res.graph <- function(res,filename="res.html",svgsize=1000,pvalue.th=0.05,color_edges=TRUE){
     
     clean.res_names <- function(x){
         x.splited <- unlist(strsplit(x,split=":"))
@@ -56,6 +57,12 @@ res.graph <- function(res,filename="res.html",svgsize=1000,pvalue.th=0.05){
     html <- paste0(html,'var graph = ',RJSONIO::toJSON(graph_res),';\n')
     html <- paste0(html,'var svgsize = ',svgsize,';\n')
     html <- paste0(html,'var maxlength = ',maxlength,';\n')
+	html <- paste0(html,'var svgsize = ',svgsize,';\n')
+	if(color_edges==TRUE){
+		html <- paste0(html,'var color_edges = true;\n')
+    }else{
+		html <- paste0(html,'var color_edges = false;\n')
+	}
     html <- paste0(html,res_graph.js,'\n')
     html <- paste0(html,'drawGraph();\n')
     html <- paste0(html,'</script>\n')
@@ -120,13 +127,11 @@ create.graph <- function(res,pvalue.th){
 #' @param cols a character vector specifying the colours of the node in the SVG representation
 #' @param sizes a numeric vector specifying the sizes of the nodes in pixels in the SVG representation
 #' @param svgsize a numeric value specifying the size of the SVG representation in pixels
-#' @param color_edges a boolean value specifying if edges but be colored
-
 #'
 #' @return none
 #'
 #' @export
-res.mds <- function(res,filename="res.html",cols=NULL,sizes=NULL,svgsize=1000,color_edges=TRUE){
+res.mds <- function(res,filename="res.html",cols=NULL,sizes=NULL,svgsize=1000){
 
     clean.res_names <- function(x){
         x.splited <- unlist(strsplit(x,split=":"))
@@ -156,13 +161,6 @@ res.mds <- function(res,filename="res.html",cols=NULL,sizes=NULL,svgsize=1000,co
     html <- paste0(html,'var nodes_cols = ',RJSONIO::toJSON(mds_res$nodes_cols),';\n')
     html <- paste0(html,'var nodes_sizes = ',RJSONIO::toJSON(mds_res$nodes_sizes),';\n')
     html <- paste0(html,'var stress = ',mds_res$stress,';\n')
-    html <- paste0(html,'var svgsize = ',svgsize,';\n')
-	if(color_edges==TRUE){
-		html <- paste0(html,'var color_edges = true;\n')
-    }else{
-		html <- paste0(html,'var color_edges = false;\n')
-	}
-	
 	html <- paste0(html,res_mds.js,'\n')
     html <- paste0(html,'drawMDS();\n')
     html <- paste0(html,'</script>\n')

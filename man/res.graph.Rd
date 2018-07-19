@@ -4,7 +4,8 @@
 \alias{res.graph}
 \title{Circular graph representation of a RES object}
 \usage{
-res.graph(res, filename = "res.html", svgsize = 1000, pvalue.th = 0.05)
+res.graph(res, filename = "res.html", svgsize = 1000, pvalue.th = 0.05,
+  color_edges = TRUE)
 }
 \arguments{
 \item{res}{a RES object}
@@ -14,6 +15,8 @@ res.graph(res, filename = "res.html", svgsize = 1000, pvalue.th = 0.05)
 \item{svgsize}{a numeric value specifying the size of the SVG representation in pixels}
 
 \item{pvalue.th}{a numeric value specifying a p-value cutoff. Only the associations below this specific value will be returned}
+
+\item{color_edges}{a boolean value specifying if edges but be colored}
 }
 \value{
 none
