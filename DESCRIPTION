@@ -1,7 +1,7 @@
 Package: CytoCompare
 Type: Package
 Title: Computational comparisons of cytometry profiles
-Version: 1.1-0
+Version: 1.2-0
 Author: Ludovic PLATON, Guillaume GAUTREAU and Nicolas TCHITCHEK
 Maintainer: Nicolas TCHITCHEK <nicolas.tchitchek@gmail.com>, Guillaume GAUTREAU <guillaume.gautreau@free.fr> and Ludovic PLATON <platon.ludovic@gmail.com>
 Description: The comparison of the phenotypes of cytometry cell clusters is an important aspect in high-dimensional cytometry analysis. Such comparaisons are mainly done to identify similar cell cluster in different cclustering approches. CytoCompare allows the comparison of cell cluster based on the density of expression markers. For each comparison of two cytometry profiles, CytoCompare computes a p-value asserting the significance of the similarity. An aggregated distance measure is also computed for each comparison. Automatic gating result files from SPADE, viSNE/ACCENSE or Citrus algorithms can be imported into CytoCompare. Moreover, CytoCompare has many visualization representations that can be used to make comparison results and intermediary results easily understandable. Importantly, users can also define their own statistical methods for the comparisons of the different types of profiles. 

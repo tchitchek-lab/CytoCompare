@@ -92,8 +92,8 @@ create.graph <- function(res,pvalue.th){
     nodes$children[[1]]$children <- lapply(types, nodes.init)
     
     for(i in 1:length(types)){
-        objects <- profile[grep(types[i],profile)]
-        nodes$children[[1]]$children[[i]]$children <- lapply(objects, nodes.init)
+        objects <- profile[grep(paste0(types[i],":"), profile)]
+		nodes$children[[1]]$children[[i]]$children <- lapply(objects, nodes.init)
     }
     
     res <- res[res@comparisons[,"profile1"]!=res@comparisons[,"profile2"]]
@@ -120,11 +120,13 @@ create.graph <- function(res,pvalue.th){
 #' @param cols a character vector specifying the colours of the node in the SVG representation
 #' @param sizes a numeric vector specifying the sizes of the nodes in pixels in the SVG representation
 #' @param svgsize a numeric value specifying the size of the SVG representation in pixels
+#' @param color_edges a boolean value specifying if edges but be colored
+
 #'
 #' @return none
 #'
 #' @export
-res.mds <- function(res,filename="res.html",cols=NULL,sizes=NULL,svgsize=1000){
+res.mds <- function(res,filename="res.html",cols=NULL,sizes=NULL,svgsize=1000,color_edges=TRUE){
 
     clean.res_names <- function(x){
         x.splited <- unlist(strsplit(x,split=":"))
@@ -155,7 +157,13 @@ res.mds <- function(res,filename="res.html",cols=NULL,sizes=NULL,svgsize=1000){
     html <- paste0(html,'var nodes_sizes = ',RJSONIO::toJSON(mds_res$nodes_sizes),';\n')
     html <- paste0(html,'var stress = ',mds_res$stress,';\n')
     html <- paste0(html,'var svgsize = ',svgsize,';\n')
-    html <- paste0(html,res_mds.js,'\n')
+	if(color_edges==TRUE){
+		html <- paste0(html,'var color_edges = true;\n')
+    }else{
+		html <- paste0(html,'var color_edges = false;\n')
+	}
+	
+	html <- paste0(html,res_mds.js,'\n')
     html <- paste0(html,'drawMDS();\n')
     html <- paste0(html,'</script>\n')
     html <- paste0(html,'</body>\n</html>')

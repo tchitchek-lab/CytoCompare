@@ -47,31 +47,31 @@ exclude.markers <- function(data,exclude){
 }
 
 
-# @title Importation of cell profiles from one or several FCS files
-# 
-# @description Imports one or several cell profiles from a FCS file or from a set of FCS files into a CELL object.
-#
-# @details If a set of files is specified, then the files are merged in the import procedure.
-#
-# Several transformations can be applied on the expression marker intensities via the 'trans' parameter:
-# 
-# The transformation functions can be parametrized using the named list 'trans.para'. The scale (cofactor) of the arcsinh transformation function can be parametrized using the 'arcsinh.scale' value. The shift of the log transformation function can be parametrized using the 'log.shift' value and the base of the log transformation function can be parametrized using the 'log.base' value. The 'log.shift' allows the value "auto" which automatically identify the log shift avoiding to apply log transformations on negative values.
-# 
-# The 'rescale' parameter can be used to rescale the marker expression intensities from 0 to 1 (with respect to the distribution proportion). The rescaling can be performed based on minimal and maximal expression values or based on specified quantiles using the 'rescale.quantiles' parameter. This strategy is especialy usefull when comparing cell or cell cluster profiles obtained from different experimental/staining conditions. 
-#    
-# @importFrom flowCore exprs read.FCS
-#
-# @param path a character vector indicating the location to a FCS file or to a set of FCS files
-# @param exclude a character vector containing the marker names to be excluded in the import procedure
-# @param trans a character specifying the name of a transformation function to apply on the marker expression intensities. Possible functions are "arcsinh" for arc sin hyperbolic transformation (default), "log" for logarithmic transformation, or "none" for no transformation
-# @param trans.para a named list containing parameters for the transformation. Please refer to the details section for more details
-# @param trans.exclude a character vector containing the marker names for which no transformation must be applied on (including the rescaling transformation)
-# @param rescale a logical specifying if marker expression intensities must be rescale between 0 and 1
-# @param rescale.quantiles a numeric vector of two values specifying the quantiles of the marker expression intensities used to rescale
-#
-# @return a S4 object of class CELL
-#
-# @export
+#' @title Importation of cell profiles from one or several FCS files
+#' 
+#' @description Imports one or several cell profiles from a FCS file or from a set of FCS files into a CELL object.
+#'
+#' @details If a set of files is specified, then the files are merged in the import procedure.
+#'
+#' Several transformations can be applied on the expression marker intensities via the 'trans' parameter:
+#' 
+#' The transformation functions can be parametrized using the named list 'trans.para'. The scale (cofactor) of the arcsinh transformation function can be parametrized using the 'arcsinh.scale' value. The shift of the log transformation function can be parametrized using the 'log.shift' value and the base of the log transformation function can be parametrized using the 'log.base' value. The 'log.shift' allows the value "auto" which automatically identify the log shift avoiding to apply log transformations on negative values.
+#' 
+#' The 'rescale' parameter can be used to rescale the marker expression intensities from 0 to 1 (with respect to the distribution proportion). The rescaling can be performed based on minimal and maximal expression values or based on specified quantiles using the 'rescale.quantiles' parameter. This strategy is especialy usefull when comparing cell or cell cluster profiles obtained from different experimental/staining conditions. 
+#'    
+#' @importFrom flowCore exprs read.FCS
+#'
+#' @param path a character vector indicating the location to a FCS file or to a set of FCS files
+#' @param exclude a character vector containing the marker names to be excluded in the import procedure
+#' @param trans a character specifying the name of a transformation function to apply on the marker expression intensities. Possible functions are "arcsinh" for arc sin hyperbolic transformation (default), "log" for logarithmic transformation, or "none" for no transformation
+#' @param trans.para a named list containing parameters for the transformation. Please refer to the details section for more details
+#' @param trans.exclude a character vector containing the marker names for which no transformation must be applied on (including the rescaling transformation)
+#' @param rescale a logical specifying if marker expression intensities must be rescale between 0 and 1
+#' @param rescale.quantiles a numeric vector of two values specifying the quantiles of the marker expression intensities used to rescale
+#'
+#' @return a S4 object of class CELL
+#'
+#' @export
 import.FCS <- function(path,
                         exclude           = NULL,
                         trans             = "arcsinh",

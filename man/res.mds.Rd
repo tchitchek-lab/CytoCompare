@@ -5,7 +5,7 @@
 \title{Create a Multidimensional scaling representation of a RES object}
 \usage{
 res.mds(res, filename = "res.html", cols = NULL, sizes = NULL,
-  svgsize = 1000)
+  svgsize = 1000, color_edges = TRUE)
 }
 \arguments{
 \item{res}{a RES object}
@@ -17,6 +17,8 @@ res.mds(res, filename = "res.html", cols = NULL, sizes = NULL,
 \item{sizes}{a numeric vector specifying the sizes of the nodes in pixels in the SVG representation}
 
 \item{svgsize}{a numeric value specifying the size of the SVG representation in pixels}
+
+\item{color_edges}{a boolean value specifying if edges but be colored}
 }
 \value{
 none
