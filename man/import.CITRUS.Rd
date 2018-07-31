@@ -4,7 +4,8 @@
 \alias{import.CITRUS}
 \title{Importation of cell cluster profiles from a Citrus result}
 \usage{
-import.CITRUS(file, dictionary = NULL, exclude = NULL, bin.width = 0.05,
+import.CITRUS(file, dictionary = NULL, exclude = c("Time",
+  "fileEventNumber", "Cell_length", "fileId"), bin.width = 0.05,
   minimumClusterSizePercent = 0.05, cluster.selection = NULL)
 }
 \arguments{

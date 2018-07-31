@@ -374,7 +374,7 @@ import.SPADE <- function(path,
 #' @export
 import.CITRUS <- function(file,
                           dictionary                = NULL,
-                          exclude                   = NULL,
+                          exclude                   = c("Time","fileEventNumber","Cell_length","fileId"),
                           bin.width                 = 0.05,
                           minimumClusterSizePercent = 0.05,
                           cluster.selection         = NULL){
@@ -394,16 +394,16 @@ import.CITRUS <- function(file,
     cluster.sizes       <- sapply(citrus.clustering$clusterMembership,length)
     size.min            <- (length(cluster.sizes)+1) * minimumClusterSizePercent
     largeEnoughClusters <- which(cluster.sizes >= size.min)
-    # from citrus.selectClusters.minimumClusterSize
+	# from citrus.selectClusters.minimumClusterSize
     
     if(!is.null(cluster.selection)){
         largeEnoughClusters <- largeEnoughClusters[largeEnoughClusters%in%cluster.selection]
         if(length(largeEnoughClusters) == 0)
             stop("Selected clusters do not have enough cell")
     }
+	
     data <- c()
     for(clusterId in largeEnoughClusters){
-        
         # from citrus.exportCluster - begin
         clusterData = citrus.combinedFCSSet$data[citrus.clustering$clusterMembership[[clusterId]],]
         if (!is.null(citrus.combinedFCSSet$scaleColumns)) {
@@ -417,11 +417,9 @@ import.CITRUS <- function(file,
         }
         # from citrus.exportCluster - end
         
-        data <- rbind(data,clusterData)
-    }
-    data <- citrus.combinedFCSSet$data
-    
-    
+        data <- rbind(data,cbind(clusterData,clusterId))
+	}
+	
     if(!is.null(dictionary)){
         colnames(data) <- rename.markers(colnames(data),dictionary)
     }
@@ -429,11 +427,21 @@ import.CITRUS <- function(file,
         data <- exclude.markers(data,exclude)
     }
     markers        <- colnames(data)
-    
-    cluster <- as.CLUSTER(data,cluster = "fileEventNumber",bin.width = bin.width)
+	
+    message("Displaying marker ranges")
+    for(col in colnames(data)){
+		message(paste0("marker: ",col," - range=[",format(min(data[,col]),digits=5),",",format(max(data[,col]),digits=5)),"]")
+	}
+	
+    cluster <- as.CLUSTER(data,cluster = "clusterId",bin.width = bin.width)
     cluster@name <- basename(file)
-    
-    
+	
+	markers = cluster@markers
+	clustering.markers = citrus.foldClustering$allClustering$clusteringColumns
+	
+	cluster@markers.clustering = cluster@markers %in% citrus.foldClustering$allClustering$clusteringColumns
+	cluster@graph = NULL
+	
     return(cluster)
 }
 

@@ -819,13 +819,13 @@ setMethod("as.CLUSTER",c("matrix"),
             sd             <- matrix(0,nrow=profiles.nb,ncol=length(markers))
             densities      <- matrix(list(),nrow=profiles.nb,ncol=length(markers))
             for(i in 1:profiles.nb){
-                current_profile   <- object[object[,cluster]==val.cluster[i],markers,drop=FALSE]
+				current_profile   <- object[object[,cluster]==val.cluster[i],markers,drop=FALSE]
                 profiles.sizes[i] <- nrow(current_profile)
                 means[i,]         <- apply(current_profile,2,mean)
                 sd[i,]            <- apply(current_profile,2,sd)
                 densities[i,]     <- apply(current_profile,2,function(x){ return(DENSITY(bin.width=bin.width,values=x))})
                 for(j in 1:length(markers)){
-                    densities[i,j][[1]]@name <- markers[j]
+					densities[i,j][[1]]@name <- markers[j]
                 }
                 message(paste0(round(i/profiles.nb*100),"%"))
             }

@@ -41,7 +41,8 @@ sinh_coeff <- function(x,coeff=5){
 #
 # @return a named list containing the density computation results
 compute.density <- function(x,bin.width=0.05){
-    val.neg <- c()
+
+	val.neg <- c()
     val.pos <- c()
     x.neg   <- x[x<0]
     x.pos   <- x[x>=0]
@@ -60,18 +61,22 @@ compute.density <- function(x,bin.width=0.05){
         }
         inter.neg <- ind+bin.width
     }
-    if(abs(lim.pos) == Inf){
+	
+	if(abs(lim.pos) == Inf){
         val.pos <- 0
         inter.pos <- bin.width
     }else{
         ind <- bin.width
         while(ind < lim.pos+bin.width){
-            val.pos <- c(val.pos,sum(x.pos<=ind)/n)
+			val.pos <- c(val.pos,sum(x.pos<=ind)/n)
             x.pos   <- x.pos[x.pos>ind]
             ind     <- ind+bin.width
         }
         inter.pos <- ind-bin.width
     }
+	
+	if(is.null(val.pos))
+		val.pos <- 0
     
     res <- list(point.nb = n,
     bin.interval         = c(inter.neg,inter.pos),
