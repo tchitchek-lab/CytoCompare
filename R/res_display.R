@@ -57,7 +57,6 @@ res.graph <- function(res,filename="res.html",svgsize=1000,pvalue.th=0.05,color_
     html <- paste0(html,'var graph = ',RJSONIO::toJSON(graph_res),';\n')
     html <- paste0(html,'var svgsize = ',svgsize,';\n')
     html <- paste0(html,'var maxlength = ',maxlength,';\n')
-	html <- paste0(html,'var svgsize = ',svgsize,';\n')
 	if(color_edges==TRUE){
 		html <- paste0(html,'var color_edges = true;\n')
     }else{
@@ -161,7 +160,7 @@ res.mds <- function(res,filename="res.html",cols=NULL,sizes=NULL,svgsize=1000){
     html <- paste0(html,'var nodes_cols = ',RJSONIO::toJSON(mds_res$nodes_cols),';\n')
     html <- paste0(html,'var nodes_sizes = ',RJSONIO::toJSON(mds_res$nodes_sizes),';\n')
     html <- paste0(html,'var stress = ',mds_res$stress,';\n')
-	html <- paste0(html,res_mds.js,'\n')
+	html <- paste0(html,'var svgsize = ',svgsize,';\n')
     html <- paste0(html,'drawMDS();\n')
     html <- paste0(html,'</script>\n')
     html <- paste0(html,'</body>\n</html>')
