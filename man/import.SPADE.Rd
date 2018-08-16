@@ -6,9 +6,10 @@
 \usage{
 import.SPADE(path, exclude = NULL, trans = "arcsinh",
   trans.para = switch(trans, arcsinh = list(arcsinh.scale = 5), log =
-  list(log.shift = "auto", log.base = 10), none = NULL), trans.exclude = NULL,
-  bin.width = 0.05, extract.folder = NULL, extract.folder.del = FALSE,
-  zip = FALSE, rescale = FALSE, rescale.quantiles = c(0, 1))
+  list(log.shift = "auto", log.base = 10), none = NULL),
+  trans.exclude = NULL, bin.width = 0.05, extract.folder = NULL,
+  extract.folder.del = FALSE, zip = FALSE, rescale = FALSE,
+  rescale.quantiles = c(0, 1))
 }
 \arguments{
 \item{path}{a character indicating the location to a zip or a folder containing the SPADE results}

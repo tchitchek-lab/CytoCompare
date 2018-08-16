@@ -7,7 +7,8 @@
 import.FCS(path, exclude = NULL, trans = "arcsinh",
   trans.para = switch(trans, arcsinh = list(arcsinh.scale = 5), log =
   list(log.shift = "auto", log.base = 10), none = NULL),
-  trans.exclude = "cluster", rescale = FALSE, rescale.quantiles = c(0, 1))
+  trans.exclude = "cluster", rescale = FALSE,
+  rescale.quantiles = c(0, 1))
 }
 \arguments{
 \item{path}{a character vector indicating the location to a FCS file or to a set of FCS files}

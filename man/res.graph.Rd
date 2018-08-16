@@ -4,8 +4,8 @@
 \alias{res.graph}
 \title{Circular graph representation of a RES object}
 \usage{
-res.graph(res, filename = "res.html", svgsize = 1000, pvalue.th = 0.05,
-  color_edges = TRUE)
+res.graph(res, filename = "res.html", svgsize = 1000,
+  pvalue.th = 0.05, color_edges = TRUE)
 }
 \arguments{
 \item{res}{a RES object}

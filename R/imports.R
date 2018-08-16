@@ -368,6 +368,7 @@ import.SPADE <- function(path,
 #' @param bin.width a numeric value indicating the width of the bins for the marker expression densities computations
 #' @param minimumClusterSizePercent a numeric value indicating the minimal ratio of cells per cluster to import
 #' @param cluster.selection a character vector containing the names of the clusters to import
+#' @param arcsinh.transform a logical value indicating if Citrus expression values must be arcsinh transformed
 #'
 #' @return a S4 object of class CLUSTER
 #'
@@ -377,7 +378,8 @@ import.CITRUS <- function(file,
                           exclude                   = c("Time","fileEventNumber","Cell_length","fileId"),
                           bin.width                 = 0.05,
                           minimumClusterSizePercent = 0.05,
-                          cluster.selection         = NULL){
+                          cluster.selection         = NULL,
+						  arcsinh.transform         = FALSE){
     
     message(paste0("Importing ",file))
     if(is.na(file.exists(file)))
@@ -428,12 +430,15 @@ import.CITRUS <- function(file,
     }
     markers        <- colnames(data)
 	
+	if(arcsinh.transform==TRUE)
+		data = arcsinh(data)
+	
     message("Displaying marker ranges")
     for(col in colnames(data)){
 		message(paste0("marker: ",col," - range=[",format(min(data[,col]),digits=5),",",format(max(data[,col]),digits=5)),"]")
 	}
 	
-    cluster <- as.CLUSTER(data,cluster = "clusterId",bin.width = bin.width)
+	cluster <- as.CLUSTER(data,cluster = "clusterId",bin.width = bin.width)
     cluster@name <- basename(file)
 	
 	markers = cluster@markers

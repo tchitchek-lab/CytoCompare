@@ -6,7 +6,8 @@
 \usage{
 import.CITRUS(file, dictionary = NULL, exclude = c("Time",
   "fileEventNumber", "Cell_length", "fileId"), bin.width = 0.05,
-  minimumClusterSizePercent = 0.05, cluster.selection = NULL)
+  minimumClusterSizePercent = 0.05, cluster.selection = NULL,
+  arcsinh.transform = FALSE)
 }
 \arguments{
 \item{file}{a character indicating the location of the citrusClustering.Rdata file}
@@ -20,6 +21,8 @@ import.CITRUS(file, dictionary = NULL, exclude = c("Time",
 \item{minimumClusterSizePercent}{a numeric value indicating the minimal ratio of cells per cluster to import}
 
 \item{cluster.selection}{a character vector containing the names of the clusters to import}
+
+\item{arcsinh.transform}{a logical value indicating if Citrus expression values must be arcsinh transformed}
 }
 \value{
 a S4 object of class CLUSTER

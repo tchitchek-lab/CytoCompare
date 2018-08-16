@@ -7,13 +7,14 @@
 \alias{as.CLUSTER,matrix-method}
 \title{Coercion to a CLUSTER object}
 \usage{
-as.CLUSTER(object, name = object@name, cluster = NULL, bin.width = 0.05)
+as.CLUSTER(object, name = object@name, cluster = NULL,
+  bin.width = 0.05)
 
 \S4method{as.CLUSTER}{CELL}(object, name = object@name, cluster = NULL,
   bin.width = 0.05)
 
-\S4method{as.CLUSTER}{matrix}(object, name = "cell_cluster", cluster = NULL,
-  bin.width = 0.05)
+\S4method{as.CLUSTER}{matrix}(object, name = "cell_cluster",
+  cluster = NULL, bin.width = 0.05)
 }
 \arguments{
 \item{object}{a CELL object or a numeric matrix}
