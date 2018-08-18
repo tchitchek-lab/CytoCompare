@@ -1,4 +1,14 @@
-# CytoCompare: an R Package for Computational Comparisons of Cytometry Profiles
+---  
+title: 'CytoCompare: an R Package for Computational Comparisons of Cytometry Profiles'
+output:
+  html_document:
+    cache: no
+    keep_md: yes
+  fig_caption: no
+  keep_tex: no
+  pdf_document: default
+  word_document: default
+---  
 
 
 
@@ -830,7 +840,6 @@ plot(res.clusters_b.small[2])
 ```
 
 <img src="README.figures/res_single_plot1-1.png" style="display: block; margin: auto;" />
-*The cell cluster profiles are similar*
 
 If the `RES` object contains several comparison results, then all the different comparison results will be plotted separately using the following command:
 
