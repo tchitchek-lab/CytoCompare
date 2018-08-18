@@ -61,8 +61,13 @@ setMethod("plot",c("CLUSTER","missing"),
                 ymin <- min(frame$range_min)
                 ymax <- max(frame$range_max)
                 
-                plots[[i]] <- ggplot2::ggplot(frame,ggplot2::aes_string(x="markers",y="means",ymin="range_min",ymax="range_max",group="profile")) +
-                    ggplot2::ggtitle(paste0("CLUSTER:",object1@name,":",object1@profiles[i]," (",object1@profiles.sizes[i]," cells)"))+
+				if(is.na(object1@profiles.sizes[i])){
+					title = paste0("CLUSTER:",object1@name,":",object1@profiles[i])
+				}else{
+					title = paste0("CLUSTER:",object1@name,":",object1@profiles[i]," (",object1@profiles.sizes[i]," cells)") 
+				}
+				plots[[i]] <- ggplot2::ggplot(frame,ggplot2::aes_string(x="markers",y="means",ymin="range_min",ymax="range_max",group="profile")) +
+                    ggplot2::ggtitle(title)+
                     ggplot2::geom_errorbar(stat="identity",color="deepskyblue3")+
                     ggplot2::geom_line(stat="identity",color="deepskyblue3")+
                     ggplot2::geom_point(stat="identity",colour="deepskyblue3") +

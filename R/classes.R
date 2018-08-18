@@ -411,7 +411,13 @@ setMethod("[",c("CLUSTER","ANY","ANY"),
             graph.layout      <- igraph::layout.auto(graph)
         }
             
-        cluster <- CLUSTER(name = x@name,
+		if(nrow(x@densities)==0){
+			densities = matrix(list())
+		}else{
+			densities = x@densities[k,l,drop=FALSE]
+		}
+		
+		cluster <- CLUSTER(name = x@name,
             profiles            = x@profiles[k],
             profiles.nb         = length(x@profiles[k]),
             profiles.sizes      = as.integer(x@profiles.sizes[k]),
@@ -420,7 +426,7 @@ setMethod("[",c("CLUSTER","ANY","ANY"),
             markers.clustering  = x@markers.clustering[l],
             means               = x@means[k,l,drop=FALSE],
             sd                  = x@sd[k,l,drop=FALSE],
-            densities           = x@densities[k,l,drop=FALSE],
+            densities           = densities,
             graph               = graph,
             graph.layout        = graph.layout,
             overview.function   = overview.function)

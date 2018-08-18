@@ -200,8 +200,8 @@ import.CLUSTER <- function(file,
     profiles.sizes         <- as.integer(rep(NA,nrow(data)))
     markers.clustering     <- rep(FALSE,ncol(data))
     densities              <- matrix(list())
-    graph                  <- igraph::graph.empty(0,directed=FALSE)
-    graph.layout           <- igraph::layout.auto(graph)
+    graph                  <- NULL#igraph::graph.empty(0,directed=FALSE)
+    graph.layout           <- as.matrix(0)#igraph::layout.auto(graph)
     colnames(graph.layout) <- NULL
     
     cluster <- CLUSTER(name = basename(file),
