@@ -136,12 +136,15 @@ compare_categories <- function(spade1, spade2, spade1.cluster=NULL, spade2.clust
 	colnames(marker.distances) <- markers
 	colnames(marker.successes) <- markers
 
-	res <- RES(comparisons = data[,c(1,2,4,5)],
-		comparisons.nb     = nrow(data),
-		markers            = markers,
-		marker.distances   = as.data.frame(marker.distances),
-		marker.successes   = as.data.frame(marker.successes),
-		marker.weights     = rep(1,length(markers)))
+	comparisons = data[,c(1,2,4,5)]
+	rownames(comparisons) = paste0(comparisons$profile1,"vs",comparisons$profile2)
+  
+	res <- RES(comparisons        = comparisons,
+             comparisons.nb     = nrow(data),
+             markers            = markers,
+             marker.distances   = as.data.frame(marker.distances),
+             marker.successes   = as.data.frame(marker.successes),
+             marker.weights     = rep(1,length(markers)))
 
 	return(res)
 }
