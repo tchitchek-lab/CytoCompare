@@ -353,7 +353,6 @@ importResultsFromSPADE <- function(path,
                         graph.layout       = graph.layout,
                         graph              = graph)
     
-    print(res)
     message("[END] - importing SPADE clustering results")
     
     return(res)
