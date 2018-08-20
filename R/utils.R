@@ -633,7 +633,7 @@ importResultsFromSPADE <- function(path,
         clustering.markers           <- colnames(cluster.phenotypes)[clustering.markers.index]
         
         if (!is.null(exclude.markers)) {
-            cluster.phenotypes <- exclude.markers(cluster.phenotypes, exclude.markers)
+            cluster.phenotypes <- exclude.markers.spade(cluster.phenotypes, exclude.markers)
             clustering.markers <- setdiff(clustering.markers, exclude.markers)
         }
         
@@ -834,4 +834,37 @@ load.flowSet <- function(Results = NULL,
     
     return(list(flowset = flowset, dictionary = dictionary))
     
+}
+
+
+# @title Internal - Removing of cell markers to exclude from a matrix
+#
+# @description 
+# This function is used internally to remove one or several cell markers.
+# 
+# @details 
+# If the data parameter is a dataframe the colnames.FCS parameter is ignored but if the data parameter is a flowset, the colnames.FCS parameter is required.
+# 
+# @param data a numeric matrix or flowset
+# @param exclude a character vector containing the cell markers to be excluded (case intensive)
+# @param colnames.FCS a character vector containing column names if data is a FCS flowset
+# 
+# @return a numeric matrix without the cell markers to exclude
+exclude.markers.spade <- function(data, exclude, colnames.FCS = NULL){
+    
+    if (!is.null(colnames.FCS)) {
+        column <- colnames.FCS
+    } else {
+        column <- colnames(data) 
+    }
+    
+    exclude.flags <- toupper(exclude) %in% toupper(column)
+    
+    if (any(!(exclude.flags))) {
+        warning(paste0("Unknown marker to exclude: ", paste(exclude[!exclude.flags], collapse = ", ")))
+    }
+    
+    data    <- data[ , -which(toupper(column) %in% toupper(exclude))]
+    
+    return(data)
 }
