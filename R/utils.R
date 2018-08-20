@@ -819,7 +819,7 @@ load.flowSet <- function(Results = NULL,
     }
     
 	if (!is.null(exclude.markers)) {
-        flowset <- exclude.markers(flowset, exclude.markers, colnames.FCS = flowset@colnames)
+        flowset <- exclude.markers.spade(flowset, exclude.markers, colnames.FCS = flowset@colnames)
     }
     
 	if ((is.null(Results) && !use.raw.medians) || ((!is.null(Results)) && !Results@use.raw.medians)) {
