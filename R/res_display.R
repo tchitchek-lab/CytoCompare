@@ -213,9 +213,9 @@ create.mds <- function(res,cols=NULL,sizes=NULL){
     }
     
 	stress <- function(datadist,fitteddist) {sqrt(sum((datadist-fitteddist)^2)/sum(datadist^2))} 
-    #utils::capture.output(mds <- MASS::isoMDS(dist))
+    
 	mds <- stats::cmdscale(dist)
-    mds <- list("points"=mds,"stress"=stress(dist,mds))
+    mds <- list("points"=mds,"stress"=stress(dist,dist(mds)))
   
     if(is.null(cols)){
         cols         <- rep("blue",length(profiles))
