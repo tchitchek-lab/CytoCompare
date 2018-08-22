@@ -213,10 +213,9 @@ create.mds <- function(res,cols=NULL,sizes=NULL){
     }
     
 	stress <- function(datadist,fitteddist) {sqrt(sum((datadist-fitteddist)^2)/sum(datadist^2))} 
-    
-	mds <- stats::cmdscale(dist)
-    mds <- list("points"=mds,"stress"=stress(dist,dist(mds)))
-  
+    mds <- stats::cmdscale(dist)
+    mds <- list(points = mds, stress = stress(dist, as.matrix(dist(mds))))
+	
     if(is.null(cols)){
         cols         <- rep("blue",length(profiles))
         names(cols)  <- profiles
