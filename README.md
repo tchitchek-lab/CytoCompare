@@ -133,10 +133,11 @@ install.packages('MASS')
 install.packages('RJSONIO')
 install.packages('XML')
 
-source("http://bioconductor.org/biocLite.R")
-biocLite(suppressUpdates=TRUE)
-biocLite("flowCore",suppressUpdates=TRUE)
-biocLite("flowUtils",suppressUpdates=TRUE)
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install()
+BiocManager::install("flowCore")
+BiocManager::install("flowUtils")
 ```
 
 CytoCompare is available on [GitHub](https://github.com/), at https://github.com/tchitchek-lab/CytoCompare. Its installation can be done via the `devtools` package using the following commands:
