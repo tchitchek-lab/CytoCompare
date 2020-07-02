@@ -9,7 +9,7 @@ License: GPL-3 | file LICENSE
 Depends:
     R (>= 3.1),
 Imports:
-    BiocInstaller,
+    BiocManager,
 	diptest,
     flowCore,
     flowUtils,
